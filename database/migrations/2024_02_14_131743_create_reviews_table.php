@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('author_id');
             $table->integer('recipient_id');
             $table->integer('grade');
-            $table->string('comment');
+            $table->text('comment');
             $table->date('date_review');
             $table->timestamps();
         });
