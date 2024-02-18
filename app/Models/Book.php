@@ -21,4 +21,9 @@ class Book extends Model
     protected $hidden = [];
 
     protected $casts = [];
+
+    public function orderBy()
+    {
+
+    }
 }
