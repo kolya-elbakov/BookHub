@@ -10,10 +10,10 @@ class MainController extends Controller
 {
     public function getBook()
     {
-        if (!Auth::check()) {
-            return view('auth.login');
-        } else {
-            $books = Book::all($fillable);
+        if (Auth::check()) {
+            $books = Book::all();
+            return view('main', ['books'=>$books]);
         }
+        return redirect("login")->withSuccess('You are not allowed to access');
     }
 }

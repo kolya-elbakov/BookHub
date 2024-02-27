@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::post('custom-login', [UserController::class, 'customLogin'])->name('login
 Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
 Route::get('signout', [UserController::class, 'signOut'])->name('signout');
+
+Route::middleware('auth')->get('books', [MainController::class, 'getBook'])->name('books');

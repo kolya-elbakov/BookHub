@@ -14,7 +14,7 @@ class Book extends Model
         'user_id',
         'author',
         'genre',
-        'data_publication',
+        'date_publication',
         'condition'
     ];
 
