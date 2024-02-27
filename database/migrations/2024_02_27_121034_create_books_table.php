@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('genre');
             $table->date('date_publication');
             $table->integer('condition');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,8 @@ class Book extends Model
         'author',
         'genre',
         'date_publication',
-        'condition'
+        'condition',
+        'photo'
     ];
 
     protected $hidden = [];
