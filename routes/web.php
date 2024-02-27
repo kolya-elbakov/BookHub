@@ -30,3 +30,5 @@ Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard')
 Route::get('signout', [UserController::class, 'signOut'])->name('signout');
 
 Route::middleware('auth')->get('books', [MainController::class, 'getBook'])->name('books');
+
+Route::get('books-genre', [MainController::class, 'getGenre'])->name('books-genre');

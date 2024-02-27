@@ -16,7 +16,7 @@
                     <a class="menu-link" href="#0">Главная</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="#0">Жанры</a>
+                    <a class="menu-link" href="/books-genre">Жанры</a>
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="#0">Авторы</a>

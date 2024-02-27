@@ -16,4 +16,11 @@ class MainController extends Controller
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }
+
+    public function getGenre()
+    {
+        $genres = Book::select('genre')->distinct()->get();
+
+        return view('genre', ['genres'=>$genres]);
+    }
 }
