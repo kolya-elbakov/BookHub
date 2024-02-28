@@ -16,7 +16,11 @@
 <main>
     <ul class="genre-list">
         @foreach ($genres as $genre)
-            <li>{{ $genre->genre }}</li>
+            <li>{{ $genre->genre }}
+                <a class="book-count">
+                    {{$genre->book_count}} книг
+                </a>
+            </li>
         @endforeach
     </ul>
 </main>
@@ -53,6 +57,10 @@
         margin-bottom: 5px;
         padding: 10px;
         border-radius: 5px;
+    }
+
+    .book-count{
+        float: right;
     }
 
     .menu-item:nth-child(n+2) {

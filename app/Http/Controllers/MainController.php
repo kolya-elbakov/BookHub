@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -19,14 +20,20 @@ class MainController extends Controller
 
     public function getGenre()
     {
-        $genres = Book::select('genre')->distinct()->get();
+        $genres = DB::table('books')
+            ->select('genre', DB::raw('COUNT(*) as book_count'))
+            ->groupBy('genre')
+            ->get();
 
         return view('genre', ['genres'=>$genres]);
     }
 
     public function getAuthor()
     {
-        $authors = Book::select('author')->distinct()->get();
+        $authors = DB::table('books')
+            ->select('author', DB::raw('COUNT(*) as author_count'))
+            ->groupBy('author')
+            ->get();
 
         return view('author', ['authors'=>$authors]);
     }

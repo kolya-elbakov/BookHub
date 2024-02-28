@@ -16,7 +16,11 @@
 <main>
     <ul class="genre-list">
         @foreach ($authors as $author)
-            <li>{{ $author->author }}</li>
+            <li>{{ $author->author }}
+                <a class="author-count">
+                    {{$author->author_count}} книг
+                </a>
+            </li>
         @endforeach
     </ul>
 </main>
@@ -53,6 +57,10 @@
         margin-bottom: 5px;
         padding: 10px;
         border-radius: 5px;
+    }
+
+    .author-count{
+        float: right;
     }
 
     .menu-item:nth-child(n+2) {
