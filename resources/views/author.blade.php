@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Жанры</title>
+    <title>Авторы</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
-    <h1>Список Жанров</h1>
+    <h1>Список Авторов</h1>
     <a class="menu-item">
         <a class="menu-link" href="/books">Главная</a>
     </a>
 </header>
 <main>
     <ul class="genre-list">
-        @foreach ($genres as $genre)
-            <li>{{ $genre->genre }}</li>
+        @foreach ($authors as $author)
+            <li>{{ $author->author }}</li>
         @endforeach
     </ul>
 </main>

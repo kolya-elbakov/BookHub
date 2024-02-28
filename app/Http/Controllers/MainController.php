@@ -23,4 +23,11 @@ class MainController extends Controller
 
         return view('genre', ['genres'=>$genres]);
     }
+
+    public function getAuthor()
+    {
+        $authors = Book::select('author')->distinct()->get();
+
+        return view('author', ['authors'=>$authors]);
+    }
 }

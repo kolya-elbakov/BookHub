@@ -1,7 +1,7 @@
 <header class="site-header">
 
     <div class="header-wrap">
-        <a class="logo" href="#0">
+        <a class="logo" href="">
             <img alt="Логотип сайта" src="https://psv4.userapi.com/c235031/u157852698/docs/d29/74a2a80f7521/IMG_9429-removebg-preview.png?extra=yFMRQki_O6CSKBCi_Loe6aNV9wEneaS9fHpqVrgHXjgDYbSPuPzcKrXxMjH4NPn6YrP0Hq2tzvYrxjI6BzvY-GgvIUUEV8audW4ypmg31seGFuOF6jo3lCx2KC362vPqwU6IKc92OvZAhnx2ScqmCpNg" width="250" height="90">
         </a>
 
@@ -13,13 +13,10 @@
                     <button class="search-button"><span class="visually-hidden">Найти</span></button>
                 </form>
                 <li class="menu-item">
-                    <a class="menu-link" href="#0">Главная</a>
-                </li>
-                <li class="menu-item">
                     <a class="menu-link" href="/books-genre">Жанры</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="#0">Авторы</a>
+                    <a class="menu-link" href="/books-author">Авторы</a>
                 </li>
             </ul>
         </nav>

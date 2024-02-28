@@ -32,3 +32,4 @@ Route::get('signout', [UserController::class, 'signOut'])->name('signout');
 Route::middleware('auth')->get('books', [MainController::class, 'getBook'])->name('books');
 
 Route::get('books-genre', [MainController::class, 'getGenre'])->name('books-genre');
+Route::get('books-author', [MainController::class, 'getAuthor'])->name('books-author');
