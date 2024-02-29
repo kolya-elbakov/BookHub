@@ -20,8 +20,7 @@ class MainController extends Controller
 
     public function getGenre()
     {
-        $genres = DB::table('books')
-            ->select('genre', DB::raw('COUNT(*) as book_count'))
+        $genres = Book::select('genre', DB::raw('COUNT(*) as book_count'))
             ->groupBy('genre')
             ->get();
 
@@ -30,11 +29,10 @@ class MainController extends Controller
 
     public function getAuthor()
     {
-        $authors = DB::table('books')
-            ->select('author', DB::raw('COUNT(*) as author_count'))
+        $authors = Book::select('author', DB::raw('COUNT(*) as author_count'))
             ->groupBy('author')
             ->get();
-
         return view('author', ['authors'=>$authors]);
+
     }
 }

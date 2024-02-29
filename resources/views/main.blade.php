@@ -21,8 +21,6 @@
             </ul>
         </nav>
     </div>
-
-
     <h1 class="site-title">Платформа для поиска и обмена книг</h1>
 </header>
 
