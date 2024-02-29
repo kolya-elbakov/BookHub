@@ -38,7 +38,7 @@
                     </div>
                     <div class="article-text-column">
                         <h2 class="article-title">
-                            <a class="article-title-link" href="#0">{{ $book->book_name }}</a>
+                            <a class="article-title-link" href="{{ route('book-show', $book->id) }}">{{ $book->book_name }}</a>
                         </h2>
                         <cite class="article-genre">Жанр: {{ $book->genre }}</cite><br>
                         <cite class="article-author">Автор: {{ $book->author }}</cite><br>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,5 +35,13 @@ class MainController extends Controller
             ->get();
         return view('author', ['authors'=>$authors]);
 
+    }
+
+    public function show($id)
+    {
+        $book = Book::find($id);
+        $user = User::find($book->user_id);
+
+        return view('book-show', ['book'=>$book], ['user'=>$user]);
     }
 }

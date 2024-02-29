@@ -33,3 +33,5 @@ Route::middleware('auth')->get('books', [MainController::class, 'getBook'])->nam
 
 Route::get('books-genre', [MainController::class, 'getGenre'])->name('books-genre');
 Route::get('books-author', [MainController::class, 'getAuthor'])->name('books-author');
+
+Route::get('/book-show/{id}', [MainController::class, 'show'])->name('book-show');
