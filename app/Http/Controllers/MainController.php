@@ -14,8 +14,8 @@ class MainController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $userBooks = $user->books;
-            return view('main', ['userBooks'=>$userBooks], ['user'=>$user]);
+            $allBooks = Book::where('user_id', '!=', $user->id)->get();
+            return view('main', ['userBooks'=>$allBooks], ['user'=>$user]);
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }
