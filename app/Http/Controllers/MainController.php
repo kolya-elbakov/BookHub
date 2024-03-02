@@ -13,8 +13,9 @@ class MainController extends Controller
     public function getBook()
     {
         if (Auth::check()) {
-            $books = Book::all();
-            return view('main', ['books'=>$books]);
+            $user = Auth::user();
+            $userBooks = $user->books;
+            return view('main', ['userBooks'=>$userBooks], ['user'=>$user]);
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }

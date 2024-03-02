@@ -31,12 +31,16 @@
         <p><strong>Состояние:</strong> {{ $book->condition }}</p>
         <p><strong>Владелец:</strong> {{ $user->name }} {{$user->surname}}</p>
         <div class="rating">
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9734;</span>
+            @for($i = 1; $i <= 5; $i++)
+                @if($i <= $book->condition)
+                    <span class="star">&#9733;</span>
+                @else
+                    <span class="star">&#9734;</span>
+                @endif
+            @endfor
         </div>
+        <a href="/application" class="btn">Создать заявку на обмен книги</a>
+    </div>
     </div>
 </div>
 </body>
@@ -131,5 +135,17 @@
     .menu-list {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    .btn {
+        position: absolute;
+        top: 600px;
+        right: 200px;
+        background-color: #2ca02c;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
     }
 </style>

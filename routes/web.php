@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +37,7 @@ Route::get('books-genre', [MainController::class, 'getGenre'])->name('books-genr
 Route::get('books-author', [MainController::class, 'getAuthor'])->name('books-author');
 
 Route::get('/book-show/{id}', [MainController::class, 'show'])->name('book-show');
+
+Route::get('application/{id}', [ApplicationController::class, 'getApplicationForm'])->name('application');
+
+Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBook'])->name('My-profile');

@@ -18,6 +18,12 @@
                 <li class="menu-item">
                     <a class="menu-link" href="/books-author">Авторы</a>
                 </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="{{ route('signout') }}">Logout</a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/My-profile">{{ $user->name }} {{$user->surname}}</a>
+                </li>
             </ul>
         </nav>
     </div>
@@ -32,7 +38,7 @@
 
         <article class="article">
                 <div class="article-item">
-                    @foreach($books as $book)
+                    @foreach($userBooks as $book)
                     <div class="article-img-column">
                         <img class="article-img" src ='{{$book->photo}}' width="250" height="390">
                     </div>
@@ -44,6 +50,7 @@
                         <cite class="article-author">Автор: {{ $book->author }}</cite><br>
                         <cite class="article-datetime">Дата издания: {{ $book->date_publication }}</cite><br>
                         <cite class="article-condition">Состояние: {{ $book->condition }}</cite>
+                        <a href="{{route('application', $book->id)}}" class="btn">Создать заявку на обмен книги</a>
                     </div>
                 </div>
             @endforeach
@@ -272,5 +279,14 @@
 
     .search-button:hover {
         background-color: #000;
+    }
+
+    .btn {
+        background-color: #2ca02c;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
     }
 </style>
