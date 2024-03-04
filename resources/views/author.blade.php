@@ -29,8 +29,15 @@
     <ul class="author-list">
         @foreach ($authors as $author)
             <li>{{ $author->author }}
-                <a class="author-count">
+                <a class="book-count">
                     {{$author->author_count}} книг
+                    <select id="book" name="book" required>
+                        @foreach($books as $book)
+                            @if ($book->author === $author->author)
+                                <option value="credit">{{$book->book_name}}</option>
+                            @endif
+                        @endforeach
+                    </select>
                 </a>
             </li>
         @endforeach
@@ -71,7 +78,7 @@
         border-radius: 5px;
     }
 
-    .author-count{
+    .book-count{
         float: right;
     }
 

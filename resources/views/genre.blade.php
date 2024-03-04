@@ -31,9 +31,16 @@
             <li>{{ $genre->genre }}
                 <a class="book-count">
                     {{$genre->book_count}} книг
+                    <select id="book" name="book" required>
+                        @foreach($books as $book)
+                            @if ($book->genre === $genre->genre)
+                            <option value="credit">{{$book->book_name}}</option>
+                            @endif
+                        @endforeach
+                    </select>
                 </a>
             </li>
-        @endforeach
+            @endforeach
     </ul>
 </main>
 </body>

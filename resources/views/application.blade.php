@@ -40,6 +40,19 @@
             @endif
             <input type="email" id="email" name="email" required>
         </div>
+        <div class="form-group">
+            <label for="book">Мои книги:</label>
+            <select id="book" name="book" required>
+                @foreach($userBooks as $book)
+                    <option value="credit">{{$book->book_name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="message">Сообщение:</label>
+            <input type="text" id="message" name="message" placeholder="Введите сообщение">
+        </div>
+
 
         <button type="submit">Подтвердить заявку</button>
     </form>
@@ -163,5 +176,15 @@
         color: #ffffff;
         position: relative;
         z-index: 2;
+    }
+
+    #message{
+        margin-bottom: 20px;
+        width: 600px; /* Ширина поля в пикселях */
+        height: 100px; /* Высота поля в пикселях */
+        padding: 10px; /* Внутренние отступы для текста внутри поля */
+        font-size: 14px; /* Размер шрифта */
+        border: 1px solid #ccc; /* Граница поля */
+        border-radius: 5px;
     }
 </style>

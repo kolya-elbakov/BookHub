@@ -4,6 +4,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,5 +40,7 @@ Route::get('books-author', [MainController::class, 'getAuthor'])->name('books-au
 Route::get('/book-show/{id}', [MainController::class, 'show'])->name('book-show');
 
 Route::get('application/{id}', [ApplicationController::class, 'getApplicationForm'])->name('application');
+//Route::post();
 
 Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBook'])->name('My-profile');
+

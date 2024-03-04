@@ -15,7 +15,7 @@ class MainController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $allBooks = Book::where('user_id', '!=', $user->id)->get();
-            return view('main', ['userBooks'=>$allBooks], ['user'=>$user]);
+            return view('main', ['allBooks'=>$allBooks], ['user'=>$user]);
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }
@@ -25,8 +25,9 @@ class MainController extends Controller
         $genres = Book::select('genre', DB::raw('COUNT(*) as book_count'))
             ->groupBy('genre')
             ->get();
+        $books = Book::all();
 
-        return view('genre', ['genres'=>$genres]);
+        return view('genre', compact('genres', 'books'));
     }
 
     public function getAuthor()
@@ -34,8 +35,9 @@ class MainController extends Controller
         $authors = Book::select('author', DB::raw('COUNT(*) as author_count'))
             ->groupBy('author')
             ->get();
-        return view('author', ['authors'=>$authors]);
+        $books = Book::all();
 
+        return view('author', compact('authors', 'books'));
     }
 
     public function show($id)

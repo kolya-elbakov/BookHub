@@ -38,7 +38,7 @@
 
         <article class="article">
                 <div class="article-item">
-                    @foreach($userBooks as $book)
+                    @foreach($allBooks as $book)
                     <div class="article-img-column">
                         <img class="article-img" src ='{{$book->photo}}' width="250" height="390">
                     </div>
