@@ -30,6 +30,13 @@ class MainController extends Controller
         return view('genre', compact('genres', 'books'));
     }
 
+    public function getBookByGenre($genre)
+    {
+        $books = Book::where('genre', $genre)->get();
+
+        return view('bookByGenre', ['books'=>$books]);
+    }
+
     public function getAuthor()
     {
         $authors = Book::select('author', DB::raw('COUNT(*) as author_count'))
@@ -38,6 +45,13 @@ class MainController extends Controller
         $books = Book::all();
 
         return view('author', compact('authors', 'books'));
+    }
+
+    public function getBookByAuthor($author)
+    {
+        $books = Book::where('author', $author)->get();
+
+        return view('bookByAuthor', ['books'=>$books]);
     }
 
     public function show($id)

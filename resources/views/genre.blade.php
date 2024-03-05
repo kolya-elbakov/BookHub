@@ -26,22 +26,15 @@
     <h1>Список Жанров</h1>
 </header>
 <main>
+    @foreach ($genres as $genre)
     <ul class="genre-list">
-        @foreach ($genres as $genre)
-            <li>{{ $genre->genre }}
+            <a href="{{route('genre', $genre->genre)}}">{{ $genre->genre }}
                 <a class="book-count">
                     {{$genre->book_count}} книг
-                    <select id="book" name="book" required>
-                        @foreach($books as $book)
-                            @if ($book->genre === $genre->genre)
-                            <option value="credit">{{$book->book_name}}</option>
-                            @endif
-                        @endforeach
-                    </select>
                 </a>
-            </li>
-            @endforeach
+            </a>
     </ul>
+    @endforeach
 </main>
 </body>
 </html>

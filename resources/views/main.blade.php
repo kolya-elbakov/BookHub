@@ -35,10 +35,9 @@
 
 
     <main class="main-posts-list">
-
+        @foreach($allBooks as $book)
         <article class="article">
                 <div class="article-item">
-                    @foreach($allBooks as $book)
                     <div class="article-img-column">
                         <img class="article-img" src ='{{$book->photo}}' width="250" height="390">
                     </div>
@@ -53,8 +52,8 @@
                         <a href="{{route('application', $book->id)}}" class="btn">Создать заявку на обмен книги</a>
                     </div>
                 </div>
-            @endforeach
         </article>
+        @endforeach
     </main>
 
 <style>
@@ -176,73 +175,52 @@
         justify-content: space-between;
     }
 
-    .article {
+    .main-posts-list {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
-    .article:not(:last-child) {
-        margin-bottom: 60px;
-    }
-
-    .article-text-column {
-        width: 367px;
-        padding-left: 30px;
-    }
-
-    .article-title {
-        width: 330px;
-        margin: 0;
-        padding-bottom: 15px;
-        text-transform: uppercase;
-        font-size: 20px;
-    }
-
-    .article-title-link {
-        text-decoration: none;
-        color: #000;
-    }
-
-    .article-title-link:hover {
-        color: #b59f5b;
+    .article {
+        width: 48%; /* Ширина каждой книги (2% для отступа между книгами) */
+        margin-bottom: 20px; /* Отступ между строками */
     }
 
     .article-item {
-        display: block;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
+        display: flex;
     }
 
-    .article-datetime {
-        font-weight: bold;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 40px;
-        color: black;
+    .article-img-column {
+        flex: 1;
     }
 
-    .article-condition {
-        font-weight: bold;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 40px;
-        color: black;
+    .article-img {
+        max-width: 100%;
+        height: auto;
     }
 
-    .article-author {
-        font-weight: bold;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 40px;
-        color: black;
+    .article-text-column {
+        flex: 2;
+        padding-left: 20px; /* Отступ между изображением и текстом */
     }
 
-    .article-genre {
-        font-weight: bold;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 40px;
-        color: black;
+    .article-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .article-genre, .article-author, .article-datetime, .article-condition {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: beige;
+        color: #fff;
+        text-decoration: none;
     }
 
     .search {
