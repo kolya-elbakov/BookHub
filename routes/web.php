@@ -44,7 +44,9 @@ Route::get('author/{author}', [MainController::class, 'getBookByAuthor'])->name(
 Route::get('/book-show/{id}', [MainController::class, 'show'])->name('book-show');
 
 Route::get('application/{id}', [ApplicationController::class, 'getApplicationForm'])->name('application');
-//Route::post();
+Route::post('application/{id}', [ApplicationController::class, 'createApplication'])->name('create-application');
+
+Route::get('successful', [ApplicationController::class, 'getSuccessForm'])->name('success');
 
 Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBook'])->name('My-profile');
 

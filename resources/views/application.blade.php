@@ -24,7 +24,7 @@
 <body>
 <div class="container">
     <h1>Оформление заявки на обмен</h1>
-    <form action="/application" method="post">
+    <form action="{{route('application', $book->first()->id)}}" method="post">
         <div class="form-group">
             <label for="name">Имя:</label>
             <input type="text" id="name" name="name" required>
@@ -44,7 +44,7 @@
             <label for="book">Мои книги:</label>
             <select id="book" name="book" required>
                 @foreach($userBooks as $book)
-                    <option value="credit">{{$book->book_name}}</option>
+                    <option value="" >{{$book->book_name}}</option>
                 @endforeach
             </select>
         </div>

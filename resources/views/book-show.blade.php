@@ -39,7 +39,7 @@
                 @endif
             @endfor
         </div>
-        <a href="/application" class="btn">Создать заявку на обмен книги</a>
+        <a href="{{ route('application', $book->id) }}" class="btn">Создать заявку на обмен книги</a>
     </div>
     </div>
 </div>

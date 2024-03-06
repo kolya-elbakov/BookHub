@@ -15,7 +15,8 @@ class Application extends Model
         'sender_user_id',
         'recipient_user_id',
         'data_application',
-        'status'
+        'status',
+        'message'
     ];
 
     protected $hidden = [];
