@@ -25,17 +25,24 @@ class ApplicationController extends Controller
 
     public function createApplication(ApplicationRequest $request, $id)
     {
+        dd($request);
+        $senderUserId = Auth::id();
+        $senderBookId = $request->input('sender_book_id');
+
+        $recipientBook = Book::find($id);
+        $recipientUserId = $recipientBook->user_id;
+
         $application = new Application();
-        $application->sender_user_id = Auth::id();
-        $application->recipient_user_id = $request->input('recipient_user_id');
-        $application->sender_book_id = $request->sender_book_id;
+        $application->sender_user_id = $senderUserId;
+        $application->recipient_user_id = $recipientUserId;
+        $application->sender_book_id = $senderBookId;
         $application->recipient_book_id = $id;
         $application->date_application = now();
         $application->status = 'pending';
         $application->message = $request->input('message');
         $application->save();
 
-        return redirect("success")->back()->with('success', 'Заявка успешно создана!');
+        return redirect("success")->with('success', 'Заявка успешно создана!');
     }
 
     public function getSuccessForm()

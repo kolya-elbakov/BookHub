@@ -48,4 +48,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Book::class);
     }
+
+    public function sentApplications()
+    {
+        return $this->hasMany(Application::class, 'sender_user_id');
+    }
+
+    public function receivedApplications()
+    {
+        return $this->hasMany(Application::class, 'recipient_user_id');
+    }
 }

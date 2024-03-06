@@ -28,4 +28,14 @@ class Book extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function sentApplications()
+    {
+        return $this->hasMany(Application::class, 'sender_book_id');
+    }
+
+    public function receivedApplications()
+    {
+        return $this->hasMany(Application::class, 'recipient_book_id');
+    }
 }
