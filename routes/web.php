@@ -50,3 +50,6 @@ Route::get('/success', [ApplicationController::class, 'getSuccessForm'])->name('
 
 Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBook'])->name('My-profile');
 
+Route::get('add-book', [ProfileController::class, 'addBookForm'])->name('add-book-form');
+Route::post('add-book-save', [ProfileController::class, 'addBook'])->name('add-book-save');
+
