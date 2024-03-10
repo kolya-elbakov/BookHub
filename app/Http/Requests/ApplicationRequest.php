@@ -23,7 +23,6 @@ class ApplicationRequest extends FormRequest
     {
         return [
             'sender_book_id' => 'required|exists:books,id',
-            'recipient_book_id' => 'required|exists:books,id',
             'message' => 'required',
         ];
     }

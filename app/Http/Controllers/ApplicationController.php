@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Requests\ApplicationRequest;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
-use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
-    public function getApplicationForm()
+    public function getApplicationForm(int $id)
     {
         if (Auth::check()) {
             $user = Auth::user();
             $userBooks = $user->books;
-            $book = Book::all();
+            $book = Book::find($id);
             return view('application', ['userBooks'=>$userBooks], ['book'=>$book]);
         } else {
             return redirect("login")->withSuccess('You are not allowed to access');
@@ -25,7 +23,11 @@ class ApplicationController extends Controller
 
     public function createApplication(ApplicationRequest $request, $id)
     {
-        dd($request);
+        $validate = $request->validate([
+            'sender_book_id' => 'required|numeric',
+            'message' => 'required|string',
+        ]);
+
         $senderUserId = Auth::id();
         $senderBookId = $request->input('sender_book_id');
 
@@ -39,10 +41,10 @@ class ApplicationController extends Controller
         $application->recipient_book_id = $id;
         $application->date_application = now();
         $application->status = 'pending';
-        $application->message = $request->input('message');
+        $application->message = $validate['message'];
         $application->save();
 
-        return redirect("success")->with('success', 'Заявка успешно создана!');
+        return redirect('success')->with('success', 'Заявка успешно создана!');
     }
 
     public function getSuccessForm()

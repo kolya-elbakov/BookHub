@@ -24,7 +24,7 @@
 <body>
 <div class="container">
     <h1>Оформление заявки на обмен</h1>
-    <form action="{{ route('create-application', $book->first()->id) }}" method="post">
+    <form action="{{ route('create-application', $book->id) }}" method="post">
         @csrf
         <div class="form-group">
             <label for="name">Имя:</label>
@@ -43,9 +43,9 @@
         </div>
         <div class="form-group">
             <label for="sender_book_id">Мои книги:</label>
-            <select id="sender_book_id" name="sender_book_id" >
+            <select id="sender_book_id" name="sender_book_id" required>
                 @foreach($userBooks as $book)
-{{--                    <option type="hidden" name="book_id_{{$book->id}}" value="{{$book->id}}">{{$book->book_name}}</option>--}}
+                    <option type="hidden" name="book_id_{{$book->id}}" value="{{$book->id}}">{{$book->book_name}}</option>
                 @endforeach
             </select>
         </div>
