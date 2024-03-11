@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="book-info">
-    <img src="{{ $book->photo }}" alt="Фото Книги" class="book-photo">
+    <img src="{{ $book->images_id }}" alt="Фото Книги" class="book-photo">
     <div class="book-details">
         <h1>{{ $book->book_name }}</h1>
         <p><strong>Жанр:</strong> {{ $book->genre }}</p>

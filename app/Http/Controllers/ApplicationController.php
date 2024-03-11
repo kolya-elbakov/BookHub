@@ -21,7 +21,7 @@ class ApplicationController extends Controller
         }
     }
 
-    public function createApplication(ApplicationRequest $request, $id)
+    public function createApplication(ApplicationRequest $request, int $id)
     {
         $validate = $request->validate([
             'sender_book_id' => 'required|numeric',

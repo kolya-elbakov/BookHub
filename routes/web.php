@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -50,6 +51,5 @@ Route::get('/success', [ApplicationController::class, 'getSuccessForm'])->name('
 
 Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBook'])->name('My-profile');
 
-Route::get('add-book', [ProfileController::class, 'addBookForm'])->name('add-book-form');
-Route::post('add-book-save', [ProfileController::class, 'addBook'])->name('add-book-save');
-
+Route::get('/add-book-form', [BookController::class, 'addBookForm'])->name('add-book-form');
+Route::middleware('auth')->post('/add-book-save', [BookController::class, 'addBook'])->name('add-book-save');

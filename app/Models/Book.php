@@ -17,7 +17,7 @@ class Book extends Model
         'genre',
         'date_publication',
         'condition',
-        'photo'
+        'images_id'
     ];
 
     protected $hidden = [];
@@ -37,5 +37,10 @@ class Book extends Model
     public function receivedApplications()
     {
         return $this->hasMany(Application::class, 'recipient_book_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }

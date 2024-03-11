@@ -14,7 +14,7 @@
                 <a class="menu-link" href="/books">Главная</a>
             </ul>
             <ul class="menu-list">
-                <a class="menu-link" href="/add-book">Добавить книгу</a>
+                <a class="menu-link" href="/add-book-form">Добавить книгу</a>
             </ul>
         </nav>
         <h2>Профиль пользователя</h2>
@@ -26,7 +26,7 @@
         <h3>Мои книги для обмена и поиска</h3>
         <div class="book-item">
             @foreach($userBooks as $book)
-            <img src ='{{$book->photo}}' width="250" height="390" alt="Book 1">
+            <img src ='{{$book->images_id}}' width="250" height="390" alt="Book 1">
                 <cite class="article-name">Название: {{ $book->book_name }} </cite><br>
                 <cite class="article-genre">Жанр: {{ $book->genre }} </cite><br>
                 <cite class="article-author">Автор: {{ $book->author }}</cite><br>

@@ -39,7 +39,7 @@
         <article class="article">
                 <div class="article-item">
                     <div class="article-img-column">
-                        <img class="article-img" src ='{{$book->photo}}' width="250" height="390">
+                        <img class="article-img" src ='{{$book->images_id}}' width="250" height="390">
                     </div>
                     <div class="article-text-column">
                         <h2 class="article-title">
