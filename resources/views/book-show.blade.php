@@ -23,8 +23,10 @@
 </head>
 <body>
 <div class="book-info">
-    <img src="{{ $book->images_id }}" alt="Фото Книги" class="book-photo">
-    <div class="book-details">
+    @if($book->images->isNotEmpty())
+        <img src ='{{ Storage::url($book->images->first()->image_path) }}' width="250" height="390" alt="Book 1">
+    @endif
+        <div class="book-details">
         <h1>{{ $book->book_name }}</h1>
         <p><strong>Жанр:</strong> {{ $book->genre }}</p>
         <p><strong>Автор:</strong> {{ $book->author }}</p>

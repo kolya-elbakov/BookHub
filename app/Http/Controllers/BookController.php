@@ -33,8 +33,7 @@ class BookController extends Controller
 
             $book->save();
 
-            $book->update(['image_path' => $imagePath]);
-
+            $book->images()->create(['image_path' => $imagePath]);
         } else {
             $book->save();
         }

@@ -13,5 +13,6 @@ class Image extends Model
         'id',
         'images_name',
         'book_id',
+        'image_path'
     ];
 }

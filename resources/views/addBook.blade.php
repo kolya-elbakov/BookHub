@@ -1,4 +1,4 @@
-<form action="{{ route('add-book-save') }}" method="post">
+<form action="{{ route('add-book-save') }}" method="post" enctype="multipart/form-data">
     @csrf
     <input type="text" name="book_name" placeholder="Название книги" required><br>
     <input type="text" name="author" placeholder="Автор книги" required><br>

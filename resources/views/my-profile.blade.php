@@ -26,14 +26,16 @@
         <h3>Мои книги для обмена и поиска</h3>
         <div class="book-item">
             @foreach($userBooks as $book)
-            <img src ='{{$book->images_id}}' width="250" height="390" alt="Book 1">
+                @if($book->images->isNotEmpty())
+                    <img src ='{{ Storage::url($book->images->first()->image_path) }}' width="250" height="390" alt="Book 1">
+                @endif
                 <cite class="article-name">Название: {{ $book->book_name }} </cite><br>
                 <cite class="article-genre">Жанр: {{ $book->genre }} </cite><br>
                 <cite class="article-author">Автор: {{ $book->author }}</cite><br>
                 <cite class="article-datetime">Дата издания: {{ $book->date_publication }}</cite><br>
                 <cite class="article-condition">Состояние: {{ $book->condition }}</cite>
+            @endforeach
         </div>
-        @endforeach
     </div>
 </div>
 </body>

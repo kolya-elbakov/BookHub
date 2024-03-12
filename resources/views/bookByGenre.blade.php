@@ -6,7 +6,9 @@
         <article class="article">
             <div class="article-item">
                 <div class="article-img-column">
-                    <img class="article-img" src ='{{$book->images_id}}' width="250" height="390">
+                    @if($book->images->isNotEmpty())
+                        <img src ='{{ Storage::url($book->images->first()->image_path) }}' width="250" height="390" alt="Book 1">
+                    @endif
                 </div>
                 <div class="article-text-column">
                     <h2 class="article-title">
