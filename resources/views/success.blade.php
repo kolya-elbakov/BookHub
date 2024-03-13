@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h1>Спасибо за вашу заявку!</h1>
-    <a href="/main">Вернуться на главную</a>
+    <a href="/books">Вернуться на главную</a>
 </div>
 </body>
 </html>

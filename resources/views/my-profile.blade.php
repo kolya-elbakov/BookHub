@@ -34,6 +34,9 @@
                 <cite class="article-author">Автор: {{ $book->author }}</cite><br>
                 <cite class="article-datetime">Дата издания: {{ $book->date_publication }}</cite><br>
                 <cite class="article-condition">Состояние: {{ $book->condition }}</cite>
+                    <ul class="menu-list">
+                        <a class="menu-link" href="{{ route('update-book', $book->id) }}">Редактировать книгу</a>
+                    </ul>
             @endforeach
         </div>
     </div>
@@ -73,11 +76,26 @@
     }
 
     .book-item {
-        background-color: #f9f9f9;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 10px; /* Добавляем отступ между книгами */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Две колонки для двух книг в ряду */
+        gap: 20px; /* Расстояние между книгами */
+    }
+
+    .book-item img {
+        max-width: 100%; /* Автоматический размер изображения внутри контейнера */
+        height: auto; /* Поддержка соотношения сторон */
+    }
+
+    .book-item .article-name {
+        font-weight: bold; /* Жирный шрифт для названия */
+    }
+
+    .book-item cite {
+        display: block; /* Каждая информационная строка на новой строке */
+    }
+
+    .book-item cite:not(.article-name) {
+        font-style: italic; /* Курсивный шрифт для жанра, автора, даты и состояния */
     }
 
     img {

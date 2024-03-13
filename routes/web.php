@@ -53,3 +53,6 @@ Route::middleware('auth')->get('My-profile', [ProfileController::class, 'getMyBo
 
 Route::get('/add-book-form', [BookController::class, 'addBookForm'])->name('add-book-form');
 Route::middleware('auth')->post('/add-book-save', [BookController::class, 'addBook'])->name('add-book-save');
+
+Route::get('update-book/{bookId}', [BookController::class, 'getEditForm'])->name('update-book-form');
+Route::post('update-book/{bookId}', [BookController::class, 'edit'])->name('update-book');

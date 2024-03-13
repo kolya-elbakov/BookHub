@@ -40,4 +40,39 @@ class BookController extends Controller
 
         return redirect()->route('My-profile')->withSuccess('Книга успешно добавлена');
     }
+
+    public function getEditForm(int $id)
+    {
+        $book = Book::find($id);
+        return view('update-book', ['book'=>$book]);
+    }
+
+    public function edit(BookRequest $request, $bookId)
+    {
+        $validated = $request->validated();
+
+        $book = Book::find($bookId);
+        $data = [
+            'book_name' => $validated['book_name'],
+            'user_id' => Auth::id(),
+            'author' => $validated['author'],
+            'genre' => $validated['genre'],
+            'date_publication' => $validated['date_publication'],
+            'condition' => $validated['condition'],
+        ];
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+
+            $image = $book->images->first() ?? new Image();
+            $image->image_path = $imagePath;
+
+            $image->save();
+            $book->images()->save($image);
+        }
+
+        $book->update($data);
+
+        return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
+    }
 }
