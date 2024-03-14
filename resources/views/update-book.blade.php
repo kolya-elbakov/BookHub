@@ -16,19 +16,19 @@
     <form action="{{ route('update-book', $book->id) }}" method="POST">
         @csrf
         <label for="book_name">Название книги:</label>
-        <input type="text" id="book_name" name="book_name" value="">
+        <input type="text" id="book_name" name="book_name" value="{{$book->book_name}}">
 
         <label for="author">Автор:</label>
-        <input type="text" id="author" name="author" value="">
+        <input type="text" id="author" name="author" value="{{$book->author}}">
 
         <label for="genre">Жанр:</label>
-        <input type="text" id="genre" name="genre" value="">
+        <input type="text" id="genre" name="genre" value="{{$book->genre}}">
 
         <label for="image">Изображение:</label>
         <input type="file" name="image" placeholder="Фото" required><br>
 
         <label for="date_publication">Дата издания:</label>
-        <input type="date" id="date_publication" name="date_publication" value="">
+        <input type="date" id="date_publication" name="date_publication" value="{{$book->date_publication}}">
 
         <label for="condition">Состояние книги:</label><br>
         <select name="condition">
@@ -40,6 +40,7 @@
         </select><br>
 
         <button type="submit">Сохранить</button>
+        <a href="{{ route('delete-book', ['id' => $book->id]) }}" onclick="return confirm('Вы уверены, что хотите удалить книгу?')">Удалить</a>
     </form>
 </div>
 </body>

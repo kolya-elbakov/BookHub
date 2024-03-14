@@ -56,3 +56,5 @@ Route::middleware('auth')->post('/add-book-save', [BookController::class, 'addBo
 
 Route::get('update-book/{bookId}', [BookController::class, 'getEditForm'])->name('update-book-form');
 Route::post('update-book/{bookId}', [BookController::class, 'edit'])->name('update-book');
+
+Route::get('/delete-book/{id}', [BookController::class, 'deleteBook'])->name('delete-book');

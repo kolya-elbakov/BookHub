@@ -64,4 +64,13 @@ class BookController extends Controller
 
         return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
     }
+
+    public function deleteBook(int $id)
+    {
+        $book = Book::find($id);
+        $book->images()->delete();
+        $book->delete();
+
+        return redirect('My-profile')->with('success', 'Книга удалена.');
+    }
 }
