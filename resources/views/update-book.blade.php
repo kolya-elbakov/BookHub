@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h1>Редактирование книги</h1>
-    <form action="{{ route('update-book', $book->id) }}" method="POST">
+    <form action="{{ route('update-book', $book->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="book_name">Название книги:</label>
         <input type="text" id="book_name" name="book_name" value="{{$book->book_name}}">
@@ -25,7 +25,7 @@
         <input type="text" id="genre" name="genre" value="{{$book->genre}}">
 
         <label for="image">Изображение:</label>
-        <input type="file" name="image" placeholder="Фото" required><br>
+        <input type="file" name="images[]" multiple placeholder="Фото" required><br>
 
         <label for="date_publication">Дата издания:</label>
         <input type="date" id="date_publication" name="date_publication" value="{{$book->date_publication}}">

@@ -60,6 +60,16 @@ class BookController extends Controller
             'condition' => $validated['condition'],
         ];
 
+        if ($request->hasFile('images')) {
+            $book->images()->delete();
+
+            $images = $request->file('images');
+            foreach ($images as $image) {
+                $imagePath = $image->store('images', 'public');
+                $book->images()->create(['image_path' => $imagePath]);
+            }
+        }
+
         $book->update($data);
 
         return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
