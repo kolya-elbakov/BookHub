@@ -23,15 +23,25 @@
 </head>
 <body>
 <div class="book-info">
-    @if($book->images->isNotEmpty())
-        <img src ='{{ Storage::url($book->images->first()->image_path) }}' width="250" height="390" alt="Book 1">
-    @endif
-        <div class="book-details">
+    <input type="radio" id="image1" name="book-carousel" checked>
+    @foreach($book->images as $index => $image)
+        <input type="radio" id="image{{ $index + 1 }}" name="book-carousel">
+    @endforeach
+
+    <div class="carousel">
+        @foreach($book->images as $index => $image)
+            <label for="image{{ $index + 1 }}">
+                <img src='{{ Storage::url($image->image_path) }}' width="250" height="390" alt="Book Image {{ $index + 1 }}">
+            </label>
+        @endforeach
+    </div>
+
+    <div class="book-details">
         <h1>{{ $book->book_name }}</h1>
         <p><strong>Жанр:</strong> {{ $book->genre }}</p>
         <p><strong>Автор:</strong> {{ $book->author }}</p>
         <p><strong>Состояние:</strong> {{ $book->condition }}</p>
-        <p><strong>Владелец:</strong> {{ $user->name }} {{$user->surname}}</p>
+        <p><strong>Владелец:</strong> {{ $user->name }} {{ $user->surname }}</p>
         <div class="rating">
             @for($i = 1; $i <= 5; $i++)
                 @if($i <= $book->condition)
@@ -42,7 +52,6 @@
             @endfor
         </div>
         <a href="{{ route('application', $book->id) }}" class="btn">Создать заявку на обмен книги</a>
-    </div>
     </div>
 </div>
 </body>
@@ -149,5 +158,24 @@
         border: none;
         border-radius: 5px;
         text-decoration: none;
+    }
+    .carousel {
+        display: grid;
+        grid-auto-flow: column;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    label img {
+        margin: 0;
+        scroll-snap-align: start;
     }
 </style>

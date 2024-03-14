@@ -28,14 +28,13 @@ class BookController extends Controller
             'condition' => $validated['condition'],
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
 
-            $book->save();
-
-            $book->images()->create(['image_path' => $imagePath]);
-        } else {
-            $book->save();
+            foreach ($images as $image) {
+                $imagePath = $image->store('images', 'public');
+                $book->images()->create(['image_path' => $imagePath]);
+            }
         }
 
         return redirect()->route('My-profile')->withSuccess('Книга успешно добавлена');
@@ -60,16 +59,6 @@ class BookController extends Controller
             'date_publication' => $validated['date_publication'],
             'condition' => $validated['condition'],
         ];
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-
-            $image = $book->images->first() ?? new Image();
-            $image->image_path = $imagePath;
-
-            $image->save();
-            $book->images()->save($image);
-        }
 
         $book->update($data);
 
