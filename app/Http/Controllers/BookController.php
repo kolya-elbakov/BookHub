@@ -19,25 +19,40 @@ class BookController extends Controller
     {
         $validated = $request->validated();
 
-        $book = Book::create([
-            'book_name' => $validated['book_name'],
-            'user_id' => Auth::id(),
-            'author' => $validated['author'],
-            'genre' => $validated['genre'],
-            'date_publication' => $validated['date_publication'],
-            'condition' => $validated['condition'],
-        ]);
+        $book = null;
 
-        if ($request->hasFile('images')) {
-            $images = $request->file('images');
+        try{
+            Book::beginTransaction();
 
-            foreach ($images as $image) {
-                $imagePath = $image->store('images', 'public');
-                $book->images()->create(['image_path' => $imagePath]);
+            $book = Book::create([
+                'book_name' => $validated['book_name'],
+                'user_id' => Auth::id(),
+                'author' => $validated['author'],
+                'genre' => $validated['genre'],
+                'date_publication' => $validated['date_publication'],
+                'condition' => $validated['condition'],
+            ]);
+
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+
+                foreach ($images as $image) {
+                    $imagePath = $image->store('images', 'public');
+                    $book->images()->create(['image_path' => $imagePath]);
+                }
             }
-        }
 
-        return redirect()->route('My-profile')->withSuccess('Книга успешно добавлена');
+            Book::commit();
+            return redirect()->route('My-profile')->withSuccess('Книга успешно добавлена');
+
+        } catch(\Exception $exception) {
+            if($book){
+                $book->delete();
+            }
+            Book::rollBack();
+
+            return redirect()->back()->withErrors('Произошла ошибка. Книга не загрузилась');
+        }
     }
 
     public function getEditForm(int $id)
