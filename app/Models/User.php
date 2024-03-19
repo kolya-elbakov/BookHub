@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
     public function sentApplications()
     {
         return $this->hasMany(Application::class, 'sender_user_id');

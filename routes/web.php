@@ -58,3 +58,5 @@ Route::get('update-book/{bookId}', [BookController::class, 'getEditForm'])->name
 Route::post('update-book/{bookId}', [BookController::class, 'edit'])->name('update-book');
 
 Route::get('/delete-book/{id}', [BookController::class, 'deleteBook'])->name('delete-book');
+
+Route::get('/applic-book', [ApplicationController::class, 'getApplicationInfo'])->name('applic-book');

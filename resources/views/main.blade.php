@@ -22,7 +22,12 @@
                     <a class="menu-link" href="{{ route('signout') }}">Logout</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/My-profile">{{ $user->name }} {{$user->surname}}</a>
+                    <a class="menu-link" href="/My-profile">{{ $user->name }} <br>{{$user->surname}}</a>
+                </li>
+                <li class="menu-list">
+{{--                    <a class="menu-link" href="{{route('applic-book', $application->id)}}">Заявки</a>--}}
+                    <a class="menu-link" href="/applic-book">Заявки</a>
+
                 </li>
             </ul>
         </nav>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
@@ -50,5 +51,13 @@ class ApplicationController extends Controller
     public function getSuccessForm()
     {
         return view('success');
+    }
+
+    public function getApplicationInfo()
+    {
+        $user = Auth::user();
+        $userApplics = Application::where('recipient_user_id', $user->id)->get();
+
+        return view('applic-book', compact('userApplics'));
     }
 }

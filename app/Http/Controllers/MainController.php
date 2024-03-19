@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class MainController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $allBooks = Book::where('user_id', '!=', $user->id)->get();
-            return view('main', ['allBooks'=>$allBooks], ['user'=>$user]);
+            $application = Application::first();
+            return view('main', ['allBooks'=>$allBooks, 'user'=>$user, 'application'=>$application]);
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }

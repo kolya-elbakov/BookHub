@@ -42,4 +42,9 @@ class Application extends Model
     {
         return $this->belongsTo(Book::class, 'recipient_book_id');
     }
+
+    public function message()
+    {
+        return $this->belongsTo(Book::class, 'message');
+    }
 }
