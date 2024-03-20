@@ -7,6 +7,8 @@ use App\Models\Book;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -20,10 +22,9 @@ class BookController extends Controller
         $validated = $request->validated();
 
         $book = null;
+        DB::beginTransaction();
 
         try{
-            Book::beginTransaction();
-
             $book = Book::create([
                 'book_name' => $validated['book_name'],
                 'user_id' => Auth::id(),
@@ -42,15 +43,12 @@ class BookController extends Controller
                 }
             }
 
-            Book::commit();
+            DB::commit();
             return redirect()->route('My-profile')->withSuccess('Книга успешно добавлена');
 
         } catch(\Exception $exception) {
-            if($book){
-                $book->delete();
-            }
-            Book::rollBack();
-
+            DB::rollBack();
+            Log::error($exception);
             return redirect()->back()->withErrors('Произошла ошибка. Книга не загрузилась');
         }
     }

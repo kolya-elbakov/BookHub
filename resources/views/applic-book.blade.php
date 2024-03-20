@@ -16,9 +16,9 @@
     <p>Хочет обменять книгу <span class="book">"{{$userApplic->senderBook->book_name}}"</span> на вашу книгу "{{$userApplic->recipientBook->book_name}}".</p>
     <p>Сообщение: {{$userApplic->message}}</p>
     <input type="checkbox" class="confirm-checkbox" id="confirm-1">
-    <label for="confirm-1" class="confirm-label">✔ Подтвердить</label>
+    <label for="confirm-1" class="confirm">✔ Подтвердить</label> //два разных роута для кнопок, смена статуса заявки плюс обмен книг между участниками
     <input type="checkbox" class="reject-checkbox" id="reject-1">
-    <label for="reject-1" class="reject-label">✖ Отклонить</label>
+    <label for="reject-1" class="reject">✖ Отклонить</label>
 </div>
 @endforeach
 </body>
