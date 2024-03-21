@@ -20,4 +20,9 @@ class Review extends Model
     protected $hidden = [];
 
     protected $casts = [];
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
 }

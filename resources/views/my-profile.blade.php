@@ -14,6 +14,9 @@
                 <a class="menu-link" href="/books">Главная</a>
             </ul>
             <ul class="menu-list">
+                <a class="menu-link" href="{{route('reviews', $user->id)}}">Отзывы</a>
+            </ul>
+            <ul class="menu-list">
                 <a class="menu-link" href="/add-book-form">Добавить книгу</a>
             </ul>
         </nav>

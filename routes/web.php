@@ -4,6 +4,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -65,3 +66,8 @@ Route::post('confirm-application/{id}', [ApplicationController::class, 'confirmA
 Route::post('reject-application/{id}', [ApplicationController::class, 'rejectApplication'])->name('reject-application');
 
 Route::get('user-profile/{id}', [ProfileController::class, 'getUserProfile'])->name('user-profile');
+
+Route::get('reviews/{id}', [ReviewController::class, 'getReviewsForm'])->name('reviews');
+
+Route::get('create-review/{id}', [ReviewController::class, 'getCreateReviewForm'])->name('create.review');
+Route::post('create-review/{id}', [ReviewController::class, 'createReview'])->name('create-review');
