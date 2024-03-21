@@ -56,8 +56,42 @@ class ApplicationController extends Controller
     public function getApplicationInfo()
     {
         $user = Auth::user();
-        $userApplics = Application::where('recipient_user_id', $user->id)->get();
+        $userApplics = Application::where('recipient_user_id', $user->id)->where('status', 'pending')->get();
 
         return view('applic-book', compact('userApplics'));
+    }
+
+    public function confirmApplication(int $id)
+    {
+        $application = Application::find($id);
+
+        if($application) {
+            $application->status = 'confirmed';
+
+            $application->save();
+
+            $senderBook = Book::find($application->sender_book_id);
+            $recipientBook = Book::find($application->recipient_book_id);
+
+            $senderBook->update(['user_id' => $application->recipient_user_id]);
+            $recipientBook->update(['user_id' => $application->sender_user_id]);
+
+            return redirect('success')->with('success', 'Заявка успешно подтверждена и книги обменены!');
+        } else {
+            return redirect()->back()->withErrors('Заявка не найдена.');
+        }
+    }
+
+    public function rejectApplication(int $id)
+    {
+        $application = Application::find($id);
+
+        if($application) {
+            $application->status = 'rejected';
+
+            $application->save();
+
+            return redirect('success')->with('success', 'Заявка успешно отклонена');
+        }
     }
 }

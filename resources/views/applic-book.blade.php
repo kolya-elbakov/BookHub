@@ -15,10 +15,14 @@
     <h2>Заявка от <span class="user">{{$userApplic->senderUser->name}} {{$userApplic->senderUser->surname}}</span></h2>
     <p>Хочет обменять книгу <span class="book">"{{$userApplic->senderBook->book_name}}"</span> на вашу книгу "{{$userApplic->recipientBook->book_name}}".</p>
     <p>Сообщение: {{$userApplic->message}}</p>
-    <input type="checkbox" class="confirm-checkbox" id="confirm-1">
-    <label for="confirm-1" class="confirm">✔ Подтвердить</label> //два разных роута для кнопок, смена статуса заявки плюс обмен книг между участниками
-    <input type="checkbox" class="reject-checkbox" id="reject-1">
-    <label for="reject-1" class="reject">✖ Отклонить</label>
+        <form method="post" action="{{route('confirm-application', ['id' => $userApplic->id])}}">
+            @csrf
+            <button type="submit" class="confirm">✔ Подтвердить</button>
+        </form>
+        <form method="post" action="{{route('reject-application', ['id' => $userApplic->id])}}">
+            @csrf
+            <button type="submit" class="reject">✖ Отклонить</button>
+        </form>
 </div>
 @endforeach
 </body>
@@ -55,7 +59,7 @@
         display: none;
     }
 
-    .confirm-label {
+    .confirm {
         cursor: pointer;
         padding: 5px 10px;
         border: 1px solid #333;
@@ -64,7 +68,7 @@
         background: forestgreen;
     }
 
-    .reject-label {
+    .reject {
         cursor: pointer;
         padding: 5px 10px;
         border: 1px solid #333;

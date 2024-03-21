@@ -15,4 +15,9 @@ class ProfileController extends Controller
         }
         return redirect("login")->withSuccess('You are not allowed to access');
     }
+
+    public function getUserProfile()
+    {
+        return view('userProfile');
+    }
 }

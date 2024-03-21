@@ -60,3 +60,6 @@ Route::post('update-book/{bookId}', [BookController::class, 'edit'])->name('upda
 Route::get('/delete-book/{id}', [BookController::class, 'deleteBook'])->name('delete-book');
 
 Route::get('/applic-book', [ApplicationController::class, 'getApplicationInfo'])->name('applic-book');
+
+Route::post('confirm-application/{id}', [ApplicationController::class, 'confirmApplication'])->name('confirm-application');
+Route::post('reject-application/{id}', [ApplicationController::class, 'rejectApplication'])->name('reject-application');
