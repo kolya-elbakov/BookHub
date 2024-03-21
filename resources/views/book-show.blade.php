@@ -41,7 +41,7 @@
         <p><strong>Жанр:</strong> {{ $book->genre }}</p>
         <p><strong>Автор:</strong> {{ $book->author }}</p>
         <p><strong>Состояние:</strong> {{ $book->condition }}</p>
-        <p href="/userProfile"><strong>Владелец:</strong> {{ $user->name }} {{ $user->surname }}</p>
+        <a href="{{route('user-profile', $user->id)}}"><strong>Владелец:</strong> {{ $user->name }} {{ $user->surname }}</a>
         <div class="rating">
             @for($i = 1; $i <= 5; $i++)
                 @if($i <= $book->condition)

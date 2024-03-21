@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -16,8 +17,10 @@ class ProfileController extends Controller
         return redirect("login")->withSuccess('You are not allowed to access');
     }
 
-    public function getUserProfile()
+    public function getUserProfile(int $id)
     {
-        return view('userProfile');
+        $user = User::find($id);
+        $userBooks = $user->books;
+        return view('userProfile', ['userBooks'=>$userBooks], ['user'=>$user]);
     }
 }

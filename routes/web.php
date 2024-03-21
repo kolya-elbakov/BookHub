@@ -63,3 +63,5 @@ Route::get('/applic-book', [ApplicationController::class, 'getApplicationInfo'])
 
 Route::post('confirm-application/{id}', [ApplicationController::class, 'confirmApplication'])->name('confirm-application');
 Route::post('reject-application/{id}', [ApplicationController::class, 'rejectApplication'])->name('reject-application');
+
+Route::get('user-profile/{id}', [ProfileController::class, 'getUserProfile'])->name('user-profile');
