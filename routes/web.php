@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
@@ -71,3 +72,7 @@ Route::get('reviews/{id}', [ReviewController::class, 'getReviewsForm'])->name('r
 
 Route::get('create-review/{id}', [ReviewController::class, 'getCreateReviewForm'])->name('create.review');
 Route::post('create-review/{id}', [ReviewController::class, 'createReview'])->name('create-review');
+
+Route::get('sendbasicemail',[MailController::class, 'basic_email']);
+Route::get('sendhtmlemail',[MailController::class, 'html_email']);
+Route::get('sendattachmentemail',[MailController::class, 'attachment_email']);

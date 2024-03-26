@@ -131,4 +131,16 @@ return [
         ],
     ],
 
+        'driver' => 'smtp',
+        'host' => 'app.debugmail.io',
+        'port' => 25 ,
+'from' => [
+    'address' => 'mr.elbakov@mail.ru',
+    'name' => 'Kolya Elbakov'
+],
+'encryption' => 'tls',
+'username' => '1b81d0c5-c89a-4dac-9800-cc8a31bd7712',
+'password' => '248a0062-929f-4967-b63f-cafe026dca04',
+'sendmail' => '/usr/sbin/sendmail -bs',
+'pretend' => false,
 ];
