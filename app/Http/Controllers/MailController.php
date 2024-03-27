@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Application;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -10,34 +12,17 @@ use App\Http\Controllers\Controller;
 
 class MailController extends Controller
 {
-    public function basic_email() {
-        $data = array('name'=>"Virat Gandhi");
+    public function sendExchangeRequest(Application $application) {
+        $recipientUser = User::find($application->recipient_user_id);
+        $senderUser = User::find($application->sender_user_id);
+        $data = array('recipientUser'=>$recipientUser,
+                      'senderUser'=>$senderUser);
 
-        Mail::send(['text'=>'mail'], $data, function($message) {
-            $message->to('mr.elbakov@mail.com', 'Tutorials Point')->subject
-            ('Laravel Basic Testing Mail');
-            $message->from('kolyaelbakov@gmail.com','Virat Gandhi');
+        Mail::send(['text'=>'mail'], $data, function($message) use ($recipientUser, $senderUser) {
+            $message->to($recipientUser->email, $recipientUser->name . ' ' . $recipientUser->surname)->subject
+            ('Заявка на обмен');
+            $message->from($senderUser->email,$senderUser->name . ' ' . $senderUser->surname);
         });
-        echo "Basic Email Sent. Check your inbox.";
-    }
-    public function html_email() {
-        $data = array('name'=>"Virat Gandhi");
-        Mail::send('mail', $data, function($message) {
-            $message->to('mr.elbakov@mail.com', 'Tutorials Point')->subject
-            ('Laravel HTML Testing Mail');
-            $message->from('kolyaelbakov@gmail.com','Virat Gandhi');
-        });
-        echo "HTML Email Sent. Check your inbox.";
-    }
-    public function attachment_email() {
-        $data = array('name'=>"Virat Gandhi");
-        Mail::send('mail', $data, function($message) {
-            $message->to('mr.elbakov@mail.com', 'Tutorials Point')->subject
-            ('Laravel Testing Mail with Attachment');
-            $message->attach('C:\laravel-master\laravel\public\uploads\image.png');
-            $message->attach('C:\laravel-master\laravel\public\uploads\test.txt');
-            $message->from('kolyaelbakov@gmail.com','Virat Gandhi');
-        });
-        echo "Email Sent with attachment. Check your inbox.";
+        echo "Пришло сообщение на почту";
     }
 }

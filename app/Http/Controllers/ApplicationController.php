@@ -6,6 +6,7 @@ use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
@@ -44,6 +45,9 @@ class ApplicationController extends Controller
         $application->status = 'pending';
         $application->message = $validate['message'];
         $application->save();
+
+        $mailController = new MailController();
+        $mailController->sendExchangeRequest($application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
