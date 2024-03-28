@@ -6,6 +6,7 @@ use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,8 +47,7 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        $mailController = new MailController();
-        $mailController->sendExchangeRequest($application);
+        EmailService::sendExchangeRequest($application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
