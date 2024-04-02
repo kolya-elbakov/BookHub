@@ -16,5 +16,7 @@ class MailController extends Controller
     public function sendExchangeRequest(Application $application)
     {
         EmailService::sendExchangeRequest($application);
+
+        echo "Пришло сообщение на почту";
     }
 }
