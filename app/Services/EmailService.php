@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Contracts\EmailInterface;
 use App\Models\Application;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
-class EmailService
+class EmailService implements EmailInterface
 {
-    public static function sendExchangeRequest(Application $application) { //зависимость
+    public function sendExchangeRequest(Application $application) {
         $recipientUser = User::find($application->recipient_user_id);
         $senderUser = User::find($application->sender_user_id);
         $data = array('recipientUser'=>$recipientUser,

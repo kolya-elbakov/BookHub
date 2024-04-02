@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\EmailInterface;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
+    private EmailInterface $emailService;
+
+    public function __construct(EmailInterface $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     public function getApplicationForm(int $id)
     {
         if (Auth::check()) {
@@ -47,7 +55,7 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        EmailService::sendExchangeRequest($application);
+        $this->emailService->sendExchangeRequest($application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
