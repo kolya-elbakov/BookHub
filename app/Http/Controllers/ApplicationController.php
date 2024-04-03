@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\EmailInterface;
 use App\Http\Requests\ApplicationRequest;
+use App\Jobs\SendEmailJob;
 use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
@@ -55,7 +56,7 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        $this->emailService->sendExchangeRequest($application);
+        SendEmailJob::dispatch($application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
