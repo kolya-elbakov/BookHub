@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\EmailInterface;
 use App\Http\Requests\ApplicationRequest;
-use App\Jobs\SendEmailJob;
 use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
@@ -56,7 +55,7 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        SendEmailJob::dispatch($application);
+        $this->emailService->sendExchangeRequest($application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
@@ -89,7 +88,7 @@ class ApplicationController extends Controller
             $senderBook->update(['user_id' => $application->recipient_user_id]);
             $recipientBook->update(['user_id' => $application->sender_user_id]);
 
-            return redirect('success')->with('success', 'Заявка успешно подтверждена и книги обменены!');
+            return redirect('applic-book')->with('success', 'Заявка успешно подтверждена и книги обменены!');
         } else {
             return redirect()->back()->withErrors('Заявка не найдена.');
         }
@@ -104,7 +103,7 @@ class ApplicationController extends Controller
 
             $application->save();
 
-            return redirect('success')->with('success', 'Заявка успешно отклонена');
+            return redirect('applic-book')->with('success', 'Заявка успешно отклонена');
         }
     }
 }
