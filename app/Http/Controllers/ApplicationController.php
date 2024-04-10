@@ -10,14 +10,18 @@ use App\Models\User;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use App\Services\RabbitMQService;
+
 
 class ApplicationController extends Controller
 {
     private EmailInterface $emailService;
+    private $RabbitMQService;
 
-    public function __construct(EmailInterface $emailService)
+    public function __construct(EmailInterface $emailService, RabbitMQService $rabbitMQService)
     {
         $this->emailService = $emailService;
+        $this->RabbitMQService = $rabbitMQService;
     }
 
     public function getApplicationForm(int $id)
@@ -55,7 +59,8 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        $this->emailService->sendExchangeRequest($application);
+        $this->RabbitMQService->createQueue('exchange_requests');
+        $this->RabbitMQService->sendMessage('exchange_requests', $application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
