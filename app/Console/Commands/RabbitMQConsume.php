@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Application;
+use App\Services\EmailService;
 use Illuminate\Console\Command;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQCommand extends Command
+class RabbitMQConsume extends Command
 {
     protected $signature = 'consume:emails';
     protected $description = 'Consume email queue messages';
@@ -19,15 +21,24 @@ class RabbitMQCommand extends Command
 
         echo "Waiting for messages. To exit press CTRL+C\n";
 
-        $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
+        $emailService = new EmailService();
+
+        $callback = function ($msg) use ($emailService) {
+            $messageData = json_decode($msg->body, true);
+
+            $application = Application::find($messageData['application_id']);
+            $emailService->sendExchangeRequest($application);
+
+            echo " [x] Email sent for application: {$application->id}\n";
         };
+
         $channel->basic_consume('email_queue', '', false, true, false, false, $callback);
 
-        try {
-            $channel->consume();
-        } catch (\Throwable $exception) {
-            echo $exception->getMessage();
+        while (count($channel->callbacks)) {
+            $channel->wait();
         }
+
+        $channel->close();
+        $connection->close();
     }
 }
