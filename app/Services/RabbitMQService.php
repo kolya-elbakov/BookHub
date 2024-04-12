@@ -8,20 +8,22 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQService
 {
-    protected $connection;
-    protected $channel;
-    private EmailInterface $emailService;
-
-    public function __construct(EmailInterface $emailService)
+    public function publish($application)
     {
-        $this->emailService = $emailService;
-        $this->connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
-        $this->channel = $this->connection->channel();
-    }
+        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
+        $channel = $connection->channel();
+        $channel->queue_declare('email_queue', false, false, false, false);
 
-    public function sendMessage($queueName, $application) {
-        $this->channel->queue_declare($queueName, false, true, false, false);
-        $this->emailService->sendExchangeRequest($application);
-        $this->channel->basic_publish(new AMQPMessage(json_encode($application)), '', $queueName);
+        $messageData = [
+            'application_id' => $application->id,
+        ];
+
+        $msg = new AMQPMessage(json_encode($messageData));
+        $channel->basic_publish($msg, '', 'email_queue');
+
+        echo "[x] Sent email notification for application {$application->id}\n";
+
+        $channel->close();
+        $connection->close();
     }
 }

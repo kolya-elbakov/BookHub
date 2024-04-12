@@ -12,6 +12,12 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class EmailService implements EmailInterface
 {
+    protected RabbitMQService $rabbitMQService;
+
+    public function __construct(RabbitMQService $rabbitMQService)
+    {
+        $this->rabbitMQService = $rabbitMQService;
+    }
     public function sendExchangeRequest(Application $application) {
         $recipientUser = User::find($application->recipient_user_id);
         $senderUser = User::find($application->sender_user_id);
@@ -20,5 +26,7 @@ class EmailService implements EmailInterface
             $message->to($recipientUser->email, $recipientUser->name . ' ' . $recipientUser->surname)->subject('Заявка на обмен');
             $message->from($senderUser->email, $senderUser->name . ' ' . $senderUser->surname);
         });
+
+        $this->rabbitMQService->publish($application);
     }
 }

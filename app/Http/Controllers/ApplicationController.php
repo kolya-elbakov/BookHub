@@ -17,13 +17,13 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class ApplicationController extends Controller
 {
-    private EmailInterface $emailService;
-    private $RabbitMQService;
+//    private EmailInterface $emailService;
+    private RabbitMQService $rabbitMQService;
 
-    public function __construct(EmailInterface $emailService, RabbitMQService $rabbitMQService)
+    public function __construct(RabbitMQService $rabbitMQService)
     {
-        $this->emailService = $emailService;
-        $this->RabbitMQService = $rabbitMQService;
+//        $this->emailService = $emailService;
+        $this->rabbitMQService = $rabbitMQService;
     }
 
     public function getApplicationForm(int $id)
@@ -62,20 +62,22 @@ class ApplicationController extends Controller
         $application->save();
 
         if($application){
-            $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
-            $channel = $connection->channel();
-            $channel->queue_declare('email_queue', false, false, false, false);
+//            $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
+//            $channel = $connection->channel();
+//            $channel->queue_declare('email_queue', false, false, false, false);
+//
+//            $messageData = [
+//                'application_id' => $application->id,
+//            ];
+//            $msg = new AMQPMessage(json_encode($messageData));
+//            $channel->basic_publish($msg, '', 'email_queue');
+//
+//            echo "[x] Sent email notification for application {$application->id}\n";
+//
+//            $channel->close();
+//            $connection->close();
 
-            $messageData = [
-                'application_id' => $application->id,
-            ];
-            $msg = new AMQPMessage(json_encode($messageData));
-            $channel->basic_publish($msg, '', 'email_queue');
-
-            echo "[x] Sent email notification for application {$application->id}\n";
-
-            $channel->close();
-            $connection->close();
+            $this->rabbitMQService->publish($application);
         }
 
         return redirect('success')->with('success', 'Заявка успешно создана!');

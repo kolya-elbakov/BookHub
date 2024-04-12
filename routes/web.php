@@ -73,4 +73,3 @@ Route::get('reviews/{id}', [ReviewController::class, 'getReviewsForm'])->name('r
 Route::get('create-review/{id}', [ReviewController::class, 'getCreateReviewForm'])->name('create.review');
 Route::post('create-review/{id}', [ReviewController::class, 'createReview'])->name('create-review');
 
-Route::middleware('auth')->get('send-email/{application}',[MailController::class, 'sendExchangeRequest']);
