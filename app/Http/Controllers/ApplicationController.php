@@ -59,7 +59,7 @@ class ApplicationController extends Controller
         $application->message = $validate['message'];
         $application->save();
 
-        $this->RabbitMQService->createQueue('exchange_requests');
+//        $this->RabbitMQService->createQueue('exchange_requests');
         $this->RabbitMQService->sendMessage('exchange_requests', $application);
 
         return redirect('success')->with('success', 'Заявка успешно создана!');

@@ -19,11 +19,8 @@ class RabbitMQService
         $this->channel = $this->connection->channel();
     }
 
-    public function createQueue($queueName) {
-        $this->channel->queue_declare($queueName, false, true, false, false);
-    }
-
     public function sendMessage($queueName, $application) {
+        $this->channel->queue_declare($queueName, false, true, false, false);
         $this->emailService->sendExchangeRequest($application);
         $this->channel->basic_publish(new AMQPMessage(json_encode($application)), '', $queueName);
     }
