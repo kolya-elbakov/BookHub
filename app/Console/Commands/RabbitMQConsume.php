@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Contracts\EmailInterface;
 use App\Models\Application;
 use App\Services\EmailService;
 use Illuminate\Console\Command;
