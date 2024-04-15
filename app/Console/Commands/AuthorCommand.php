@@ -14,16 +14,30 @@ class AuthorCommand extends Command
     /**
      * Execute the console command.
      */
+//    public function handle()
+//    {
+//        $res = new AuthorClient();
+//        $response = $res->client->request('GET', 'authors.json?q=Rowling');
+//        $data = json_decode($response->getBody()->getContents(), true);
+////        dd(json_decode($response->getBody()->getContents()));
+//
+//        foreach ($data as $item) {
+////            if($key == 2)
+//            dd($item['numFound']);
+//        }
+//    }
     public function handle()
     {
         $res = new AuthorClient();
-        $response = $res->client->request('GET', 'authors.json?q=J.k. Rowling');
+        $response = $res->client->request('GET', 'authors.json?q=Rowling');
         $data = json_decode($response->getBody()->getContents(), true);
-//        dd(json_decode($response->getBody()->getContents()));
 
-        foreach ($data->docs as $key => $item) {
-            if($key == 2)
-            dd($item->top_work);
+        foreach ($data as $item) {
+            if (isset($item['numFound'])) {
+                dd($item['numFound']); // Если 'numFound' существует, выводим его
+            } else {
+                dd('Key numFound not found in $item'); // Иначе выводим сообщение об отсутствии ключа
+            }
         }
     }
 }

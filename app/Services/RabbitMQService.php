@@ -2,28 +2,40 @@
 
 namespace App\Services;
 
-use App\Contracts\EmailInterface;
+use App\Models\Application;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQService
+class RabbitMQService extends AbstractRabbitMQService
 {
     public function publish($application)
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
-        $channel = $connection->channel();
-        $channel->queue_declare('email_queue', false, false, false, false);
-
-        $messageData = [
-            'application_id' => $application->id,
-        ];
+        $messageData = ['application_id' => $application->id];
 
         $msg = new AMQPMessage(json_encode($messageData));
-        $channel->basic_publish($msg, '', 'email_queue');
+        $this->channel->basic_publish($msg, '', 'email_queue');
 
-        echo "[x] Sent email notification for application {$application->id}\n";
+//       сервис не выдает сообщения так как переиспользуется
+    }
 
-        $channel->close();
-        $connection->close();
+    public function consume()
+    {
+        $callback = function ($msg) {
+            $messageData = json_decode($msg->body, true);
+
+            $emailService = new EmailService();
+
+            $application = Application::find($messageData['application_id']);
+            $emailService->sendExchangeRequest($application);
+
+        };
+
+        $this->channel->basic_consume('email_queue', '', false, true, false, false, $callback);
+
+        while (count($this->channel->callbacks)) {
+            $this->channel->wait();
+        }
+
+        $this->closeConnection();
     }
 }
