@@ -20,8 +20,23 @@ class RabbitMQConsume extends Command
     {
         echo "Waiting for messages. To exit press CTRL+C\n";
 
-        $messageHandler = new EmailServiceMessageHandler();
-        $rabbit = new RabbitMQService($messageHandler);
-        $rabbit->consume();
+        $rabbit = new RabbitMQService();
+
+        $callback = function ($msg) {
+            $data = $msg->body;
+            $applicationId = (int) $data;
+
+            $application = Application::find($applicationId);
+
+            if ($application) {
+                $emailService = new EmailService();
+                $emailService->sendExchangeRequest($application);
+                echo " [x] Email sent for application: {$application->id}\n";
+            } else {
+                echo " [!] Application not found for id: {$applicationId}\n";
+            }
+        };
+
+        $rabbit->consume('email_queue', $callback);
     }
 }

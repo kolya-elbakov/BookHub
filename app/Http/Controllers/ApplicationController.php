@@ -62,9 +62,8 @@ class ApplicationController extends Controller
         $application->save();
 
         if($application){
-            $this->rabbitMQService->publish($application);
+            $this->rabbitMQService->publish('email_queue', $application->id);
         }
-
         return redirect('success')->with('success', 'Заявка успешно создана!');
     }
 

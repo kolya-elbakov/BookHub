@@ -7,38 +7,38 @@ use App\Models\Application;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQService extends AbstractRabbitMQService
+class RabbitMQService
 {
-    private $messageHandler;
+    protected AMQPStreamConnection $connection;
 
-    public function __construct(MessageHandlerInterface $messageHandler)
+    public function __construct()
     {
-        $this->messageHandler = $messageHandler;
-        parent::__construct();
+        $this->connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'user');
     }
-    public function publish($application)
+    public function publish(string $queueName, $data)
     {
-        $messageData = ['application_id' => $application->id];
+        $channel = $this->connection->channel();
+        $channel->queue_declare($queueName, false, false, false, false);
 
-        $msg = new AMQPMessage(json_encode($messageData));
-        $this->channel->basic_publish($msg, '', 'email_queue');
+        $msg = new AMQPMessage(json_encode($data));
+        $channel->basic_publish($msg, '', $queueName);
 
+        $channel->close();
 //       сервис не выдает сообщения так как переиспользуется
     }
 
-    public function consume()
+    public function consume(string $queueName, callable $callback)
     {
-        $callback = function ($msg) {
-            $messageData = json_decode($msg->body, true);
-            $this->messageHandler->handle($messageData);
-        };
+        $channel = $this->connection->channel();
+        $channel->queue_declare($queueName, false, false, false, false);
 
-        $this->channel->basic_consume('email_queue', '', false, true, false, false, $callback);
+        $channel->basic_consume($queueName, '', false, true, false, false, $callback);
 
-        while (count($this->channel->callbacks)) {
-            $this->channel->wait();
+        while (count($channel->callbacks)) {
+            $channel->wait();
         }
 
-        $this->closeConnection();
+        $channel->close();
+        $this->connection->close();
     }
 }
