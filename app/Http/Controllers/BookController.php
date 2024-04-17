@@ -61,39 +61,43 @@ class BookController extends Controller
 
     public function edit(BookRequest $request, $bookId)
     {
-        $validated = $request->validated();
+        return DB::transaction(function () use ($request, $bookId) {
+            $validated = $request->validated();
 
-        $book = Book::find($bookId);
-        $data = [
-            'book_name' => $validated['book_name'],
-            'user_id' => Auth::id(),
-            'author' => $validated['author'],
-            'genre' => $validated['genre'],
-            'date_publication' => $validated['date_publication'],
-            'condition' => $validated['condition'],
-        ];
+            $book = Book::find($bookId);
+            $data = [
+                'book_name' => $validated['book_name'],
+                'user_id' => Auth::id(),
+                'author' => $validated['author'],
+                'genre' => $validated['genre'],
+                'date_publication' => $validated['date_publication'],
+                'condition' => $validated['condition'],
+            ];
 
-        if ($request->hasFile('images')) {
-            $book->images()->delete();
+            if ($request->hasFile('images')) {
+                $book->images()->delete();
 
-            $images = $request->file('images');
-            foreach ($images as $image) {
-                $imagePath = $image->store('images', 'public');
-                $book->images()->create(['image_path' => $imagePath]);
+                $images = $request->file('images');
+                foreach ($images as $image) {
+                    $imagePath = $image->store('images', 'public');
+                    $book->images()->create(['image_path' => $imagePath]);
+                }
             }
-        }
 
-        $book->update($data);
+            $book->update($data);
 
-        return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
+            return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
+        });
     }
 
     public function deleteBook(int $id)
     {
-        $book = Book::find($id);
-        $book->images()->delete();
-        $book->delete();
+        return DB::transaction(function () use ($id) {
+            $book = Book::find($id);
+            $book->images()->delete();
+            $book->delete();
 
-        return redirect('My-profile')->with('success', 'Книга удалена.');
+            return redirect('My-profile')->with('success', 'Книга удалена.');
+        });
     }
 }

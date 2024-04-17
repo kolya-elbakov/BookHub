@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -33,24 +34,29 @@ class UserController extends Controller
     }
     public function customRegistration(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-        ]);
-        $data = $request->all();
-        $check = $this->create($data);
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        return DB::transaction(function () use ($request) {
+            $request->validate([
+                'name' => 'required',
+                'surname' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8',
+            ]);
+            $data = $request->all();
+            $check = $this->create($data);
+            return redirect("dashboard")->withSuccess('You have signed-in');
+        });
     }
     public function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
+        return DB::transaction(function () use ($data) {
+            $user = User::create([
+                'name' => $data['name'],
+                'surname' => $data['surname'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password'])
+            ]);
+            return $user;
+        });
     }
     public function dashboard()
     {
