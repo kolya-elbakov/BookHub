@@ -19,6 +19,9 @@
             <ul class="menu-list">
                 <a class="menu-link" href="{{route('create-review', $user->id)}}">Написать отзыв</a>
             </ul>
+            <ul class="menu-list">
+                <a class="menu-link" href="{{route('chat', $user->id)}}">Написать сообщение</a>
+            </ul>
         </nav>
         <h2>Профиль пользователя</h2>
         <p><strong>Имя:</strong> {{$user->name}} {{$user->surname}}</p>

@@ -58,7 +58,7 @@ class MainController extends Controller
         return view('author', compact('authors', 'books'));
     }
 
-    public function getBookByAuthor($author)
+    public function getBookByAuthor(string $author)
     {
         $authorData = $this->authorClient->searchAuthor($author);
         $books = Book::where('author', $author)->get();

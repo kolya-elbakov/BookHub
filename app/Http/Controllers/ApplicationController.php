@@ -81,8 +81,9 @@ class ApplicationController extends Controller
         if($application) {
             $application->status = 'confirmed';
 
-            DB::transaction(function () use ($application) {
             try {
+                DB::transaction(function () use ($application) {
+
                     $application->save();
 
                     $senderBook = Book::find($application->sender_book_id);
@@ -90,12 +91,11 @@ class ApplicationController extends Controller
 
                     $senderBook->update(['user_id' => $application->recipient_user_id]);
                     $recipientBook->update(['user_id' => $application->sender_user_id]);
-
+                });
                 return redirect('applic-book')->with('success', 'Заявка успешно подтверждена и книги обменены!');
             } catch (\Exception $exception) {
                 return redirect()->back()->withErrors('Произошла ошибка при подтверждении заявки: '.$exception->getMessage());
             }
-            });
         } else {
             return redirect()->back()->withErrors('Заявка не найдена.');
         }

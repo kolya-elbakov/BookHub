@@ -97,11 +97,10 @@ class BookController extends Controller
     {
         $book = Book::find($id);
 
-        return DB::transaction(function () use ($book) {
+        DB::transaction(function () use ($book) {
             $book->images()->delete();
             $book->delete();
-
-            return redirect('My-profile')->with('success', 'Книга удалена.');
         });
+        return redirect('My-profile')->with('success', 'Книга удалена.');
     }
 }

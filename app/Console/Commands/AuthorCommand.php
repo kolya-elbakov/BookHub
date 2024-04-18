@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Console\Commands;
-
-use App\Components\AuthorClient;
-use GuzzleHttp\Client;
-use Illuminate\Console\Command;
-
-class AuthorCommand extends Command
-{
+//namespace App\Console\Commands;
+//
+//use App\Components\AuthorClient;
+//use GuzzleHttp\Client;
+//use Illuminate\Console\Command;
+//
+//class AuthorCommand extends Command
+//{
 //    protected $signature = 'app:author';
 //
 //    protected $description = 'Command description';
