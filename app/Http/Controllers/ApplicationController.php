@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\EmailInterface;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Book;
-use App\Models\User;
-use App\Services\EmailService;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\RabbitMQService;
 use Illuminate\Support\Facades\DB;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+
 
 
 class ApplicationController extends Controller
@@ -39,7 +34,6 @@ class ApplicationController extends Controller
 
     public function createApplication(ApplicationRequest $request, int $id)
     {
-        return DB::transaction(function () use ($request, $id) {
             $validate = $request->validate([
                 'sender_book_id' => 'required|numeric',
                 'message' => 'required|string',
@@ -65,7 +59,6 @@ class ApplicationController extends Controller
                 $this->rabbitMQService->publish('email_queue', $application->id);
             }
             return redirect('success')->with('success', 'Заявка успешно создана!');
-        });
     }
 
     public function getSuccessForm()
@@ -83,25 +76,29 @@ class ApplicationController extends Controller
 
     public function confirmApplication(int $id)
     {
-        return DB::transaction(function () use ($id) {
-            $application = Application::find($id);
+        $application = Application::find($id);
 
-            if($application) {
-                $application->status = 'confirmed';
+        if($application) {
+            $application->status = 'confirmed';
 
-                $application->save();
+            DB::transaction(function () use ($application) {
+            try {
+                    $application->save();
 
-                $senderBook = Book::find($application->sender_book_id);
-                $recipientBook = Book::find($application->recipient_book_id);
+                    $senderBook = Book::find($application->sender_book_id);
+                    $recipientBook = Book::find($application->recipient_book_id);
 
-                $senderBook->update(['user_id' => $application->recipient_user_id]);
-                $recipientBook->update(['user_id' => $application->sender_user_id]);
+                    $senderBook->update(['user_id' => $application->recipient_user_id]);
+                    $recipientBook->update(['user_id' => $application->sender_user_id]);
 
                 return redirect('applic-book')->with('success', 'Заявка успешно подтверждена и книги обменены!');
-            } else {
-                return redirect()->back()->withErrors('Заявка не найдена.');
+            } catch (\Exception $exception) {
+                return redirect()->back()->withErrors('Произошла ошибка при подтверждении заявки: '.$exception->getMessage());
             }
-        });
+            });
+        } else {
+            return redirect()->back()->withErrors('Заявка не найдена.');
+        }
     }
 
     public function rejectApplication(int $id)

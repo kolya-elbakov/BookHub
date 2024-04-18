@@ -61,39 +61,43 @@ class BookController extends Controller
 
     public function edit(BookRequest $request, $bookId)
     {
-        return DB::transaction(function () use ($request, $bookId) {
-            $validated = $request->validated();
+        $validated = $request->validated();
 
-            $book = Book::find($bookId);
-            $data = [
-                'book_name' => $validated['book_name'],
-                'user_id' => Auth::id(),
-                'author' => $validated['author'],
-                'genre' => $validated['genre'],
-                'date_publication' => $validated['date_publication'],
-                'condition' => $validated['condition'],
-            ];
+        $book = Book::find($bookId);
+        $data = [
+            'book_name' => $validated['book_name'],
+            'user_id' => Auth::id(),
+            'author' => $validated['author'],
+            'genre' => $validated['genre'],
+            'date_publication' => $validated['date_publication'],
+            'condition' => $validated['condition'],
+        ];
 
-            if ($request->hasFile('images')) {
-                $book->images()->delete();
-
-                $images = $request->file('images');
-                foreach ($images as $image) {
-                    $imagePath = $image->store('images', 'public');
-                    $book->images()->create(['image_path' => $imagePath]);
+        try {
+            DB::transaction(function () use ($request, $book, $data) {
+                if ($request->hasFile('images')) {
+                    $book->images()->delete();
+                    $images = $request->file('images');
+                    foreach ($images as $image) {
+                        $imagePath = $image->store('images', 'public');
+                        $book->images()->create(['image_path' => $imagePath]);
+                    }
                 }
-            }
-
-            $book->update($data);
+                $book->update($data);
+            });
 
             return redirect('My-profile')->with('success', 'Книга успешно обновлена.');
-        });
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            return redirect()->back()->withErrors('Произошла ошибка при обновлении книги.');
+        }
     }
 
     public function deleteBook(int $id)
     {
-        return DB::transaction(function () use ($id) {
-            $book = Book::find($id);
+        $book = Book::find($id);
+
+        return DB::transaction(function () use ($book) {
             $book->images()->delete();
             $book->delete();
 

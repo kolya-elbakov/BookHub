@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Components\AuthorClient;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
 class AuthorCommand extends Command
@@ -18,26 +19,35 @@ class AuthorCommand extends Command
 //    {
 //        $res = new AuthorClient();
 //        $response = $res->client->request('GET', 'authors.json?q=Rowling');
-//        $data = json_decode($response->getBody()->getContents(), true);
-////        dd(json_decode($response->getBody()->getContents()));
+////        dd(json_decode($response->getBody()->getContents(), true));
 //
-//        foreach ($data as $item) {
-////            if($key == 2)
-//            dd($item['numFound']);
-//        }
+////        foreach ($data as $item) {
+////            if (isset($item['numFound'])) {
+////                dd($item['numFound']); // Если 'numFound' существует, выводим его
+////            } else {
+////                dd('Key numFound not found in $item'); // Иначе выводим сообщение об отсутствии ключа
+////            }
+////        }
 //    }
     public function handle()
     {
-        $res = new AuthorClient();
-        $response = $res->client->request('GET', 'authors.json?q=Rowling');
-        $data = json_decode($response->getBody()->getContents(), true);
+        $client = new Client(['base_uri' => 'https://openlibrary.org']);
 
-        foreach ($data as $item) {
-            if (isset($item['numFound'])) {
-                dd($item['numFound']); // Если 'numFound' существует, выводим его
-            } else {
-                dd('Key numFound not found in $item'); // Иначе выводим сообщение об отсутствии ключа
-            }
+        $response = $client->request('GET', '/search/authors.json', [
+            'query' => ['q' => 'Rowling']
+        ]);
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        if (isset($responseData['docs']) && count($responseData['docs']) > 0) {
+            $author = $responseData['docs'][0];
+            $name = $author['name'];
+            $birthDate = $author['birth_date'];
+            $topWork = $author['top_work'];
+
+            $this->info("Author: $name, Birth Date: $birthDate, Top Work: $topWork");
+        } else {
+            $this->error("Author not found.");
         }
     }
 }

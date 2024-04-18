@@ -25,7 +25,6 @@ class ReviewController extends Controller
     }
     public function createReview(ReviewRequest $request, int $id)
     {
-        return DB::transaction(function () use ($request, $id) {
             $validated = $request->validated();
 
             $review = new Review();
@@ -37,6 +36,5 @@ class ReviewController extends Controller
             $review->save();
 
             return redirect('success')->with('success', 'Отзыв успешно создан');
-        });
     }
 }
