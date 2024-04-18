@@ -2,6 +2,12 @@
     <a class="menu-link" href="/books-author">Назад</a>
 </li>
 <main class="main-posts-list">
+    <h3>Автор:</h3>
+    <p>Имя: {{ $authorData['docs'][0]['name'] ?? ''}}</p>
+    <p>Дата рождения: {{ $authorData['docs'][0]['birth_date'] ?? ''}}</p>
+    <p>Лучшее произведение: {{ $authorData['docs'][0]['top_work'] ?? ''}}</p>
+
+    <h3>Книги автора:</h3>
     @foreach($books as $book)
         <article class="article">
             <div class="article-item">

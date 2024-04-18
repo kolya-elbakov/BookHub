@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\AuthorClient;
 use App\Models\Application;
 use App\Models\Book;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
+    protected $authorClient;
+
+    public function __construct(AuthorClient $authorClient)
+    {
+        $this->authorClient = $authorClient;
+    }
+
     public function getBook()
     {
         if (Auth::check()) {
@@ -51,9 +60,10 @@ class MainController extends Controller
 
     public function getBookByAuthor($author)
     {
+        $authorData = $this->authorClient->searchAuthor($author);
         $books = Book::where('author', $author)->get();
 
-        return view('bookByAuthor', ['books'=>$books]);
+        return view('bookByAuthor', ['books' => $books, 'authorData' => $authorData]);
     }
 
     public function show($id)
