@@ -4,6 +4,9 @@
     <title>My Chats</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+<ul class="menu-list">
+    <a class="menu-link" href="/books">Главная</a>
+</ul>
 <body>
 <h1>My Chats</h1>
 <ul class="chat-list">

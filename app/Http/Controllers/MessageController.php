@@ -55,6 +55,25 @@ class MessageController extends Controller
         return redirect()->back();
     }
 
+    public function getEditForm(int $id)
+    {
+        $message = Message::find($id);
+
+        return view('edit-message', ['message' => $message]);
+    }
+    public function editMessage(MessageRequest $request, int $id)
+    {
+        $validated = $request->validated();
+
+        $message = Message::find($id);
+
+        $data = ['message' => $validated['message']];
+
+        $message->update($data);
+
+        return view('edit-message', ['message' => $message]);
+    }
+
     public function getMyChats()
     {
         $userId = auth()->user()->id;

@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <ul class="menu-list">
-    <a class="menu-link" href="{{route('user-profile', $user->id)}}">Назад</a>
+    <a class="menu-link" href="/books">Главная</a>
 </ul>
 <body>
 <div class="chat-popup" id="myForm">
@@ -21,6 +21,7 @@
                 </div>
                 @if ($message->sender_id == auth()->user()->id)
                     <a class="delete-btn" href="{{ route('delete-message', ['id' => $message->id]) }}">Удалить</a>
+                    <a class="edit-btn" href="{{ route('edit-message', $message->id) }}">Редактировать</a>
                 @endif
             @endforeach
         </div>
@@ -124,6 +125,15 @@
 
     .delete-btn {
         background-color: #dc3545; /* Красный цвет */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .edit-btn {
+        background-color: #007bff; /* Красный цвет */
         color: white;
         border: none;
         padding: 5px 10px;
