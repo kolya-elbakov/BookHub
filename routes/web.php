@@ -77,3 +77,5 @@ Route::post('create-review/{id}', [ReviewController::class, 'createReview'])->na
 Route::get('chat/{id}', [MessageController::class, 'getChatForm'])->name('chat');
 Route::post('create-message/{id}', [MessageController::class, 'createMessage'])->name('create-message');
 Route::get('delete-message/{id}', [MessageController::class, 'deleteMessage'])->name('delete-message');
+
+Route::get('my-chats/{id}', [MessageController::class, 'getMyChats'])->name('my-chats');

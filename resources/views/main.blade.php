@@ -13,6 +13,9 @@
                     <button class="search-button"><span class="visually-hidden">Найти</span></button>
                 </form>
                 <li class="menu-item">
+                    <a class="menu-link" href="{{ route('my-chats', ['id' => $user->id]) }}">Мои чаты</a>
+                </li>
+                <li class="menu-item">
                     <a class="menu-link" href="/books-genre">Жанры</a>
                 </li>
                 <li class="menu-item">

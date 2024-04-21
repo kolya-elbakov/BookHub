@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageRequest;
-use App\Http\Requests\ReviewRequest;
 use App\Models\Message;
-use App\Models\Review;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\RabbitMQService;
 
 class MessageController extends Controller
 {
+    private RabbitMQService $rabbitMQService;
+
+    public function __construct(RabbitMQService $rabbitMQService)
+    {
+        $this->rabbitMQService = $rabbitMQService;
+    }
+
     public function getChatForm(int $id)
     {
         $user = User::find($id);
@@ -35,6 +40,10 @@ class MessageController extends Controller
         $message->message = $validated['message'];
         $message->save();
 
+        if($message){
+            $this->rabbitMQService->publish('notification_queue', $message->id);
+        }
+
         return redirect()->back();
     }
 
@@ -44,5 +53,30 @@ class MessageController extends Controller
         $message->delete();
 
         return redirect()->back();
+    }
+
+    public function getMyChats()
+    {
+        $userId = auth()->user()->id;
+        $chats = Message::select('sender_id', 'recipient_id')
+            ->where('sender_id', $userId)
+            ->orWhere('recipient_id', $userId)
+            ->distinct()
+            ->get();
+
+        $chatPartners = [];
+        $addedPartners = [];
+
+        foreach ($chats as $chat) {
+            $partnerId = $chat->sender_id == $userId ? $chat->recipient_id : $chat->sender_id;
+
+            if (!in_array($partnerId, $addedPartners)) {
+                $user = User::find($partnerId);
+                $chatPartners[] = $user;
+                $addedPartners[] = $partnerId;
+            }
+        }
+
+        return view('my-chats', ['chatPartners' => $chatPartners]);
     }
 }
