@@ -11,14 +11,17 @@
 <div class="chat-popup" id="myForm">
     <form action="{{ route('create-message', ['id' => $userId]) }}" method="post" class="form-container">
         @csrf
-        <h1>Chat</h1>
+        <h1>Chat with {{$user->name}} {{$user->surname}}</h1>
 
         <div class="chat-box">
             @foreach($messages as $message)
                 <div class="message">
-                    <p>{{ $message->sender_id == auth()->user()->id ? 'You:' : 'Recipient:' }}</p>
+                    <p>{{ $message->sender_id == auth()->user()->id ? 'Me:' : $user->name . '' . $user->surname .':'}}</p>
                     <p>{{ $message->message }}</p>
                 </div>
+                @if ($message->sender_id == auth()->user()->id)
+                    <a class="delete-btn" href="{{ route('delete-message', ['id' => $message->id]) }}">Удалить</a>
+                @endif
             @endforeach
         </div>
 
@@ -31,75 +34,101 @@
 </html>
 
 <style>
-    {box-sizing: border-box;}
-
-    /* Button used to open the chat form - fixed at the bottom of the page */
-    .open-button {
-        background-color: #555;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        opacity: 0.8;
-        position: fixed;
-        bottom: 23px;
-        right: 28px;
-        width: 280px;
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
     }
 
-    /* The popup chat - hidden by default */
-    .form-popup {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        right: 15px;
-        border: 3px solid #f1f1f1;
-        z-index: 9;
+    .chat-popup {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
     }
 
-    /* Add styles to the form container */
-    .form-container {
-        max-width: 300px;
+    h1 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    /* Стили меню */
+    .menu-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .menu-link {
+        text-decoration: none;
+        color: #007bff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        background-color: #e0e0e0;
+    }
+
+    /* Стили чата */
+    .chat-box {
+        height: 300px;
+        overflow-y: scroll;
         padding: 10px;
-        background-color: white;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
     }
 
-    /* Full-width textarea */
-    .form-container textarea {
+    .message {
+        margin-bottom: 15px;
+        padding: 8px;
+        border-radius: 4px;
+    }
+
+    .message p:first-child {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .message.you {
+        background-color: #e0f2f1;
+        text-align: right;
+    }
+
+    .message.other {
+        background-color: #f5f5f5;
+    }
+
+    /* Стили формы */
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    textarea {
         width: 100%;
-        padding: 15px;
-        margin: 5px 0 22px 0;
-        border: none;
-        background: #f1f1f1;
-        resize: none;
-        min-height: 200px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        resize: vertical;
     }
 
-    /* When the textarea gets focus, do something */
-    .form-container textarea:focus {
-        background-color: #ddd;
-        outline: none;
-    }
-
-    /* Set a style for the submit/login button */
-    .form-container .btn {
-        background-color: #04AA6D;
+    .btn {
+        background-color: #007bff;
         color: white;
-        padding: 16px 20px;
+        padding: 10px 15px;
         border: none;
+        border-radius: 4px;
         cursor: pointer;
-        width: 100%;
-        margin-bottom:10px;
-        opacity: 0.8;
     }
 
-    /* Add a red background color to the cancel button */
-    .form-container .cancel {
-        background-color: red;
-    }
-
-    /* Add some hover effects to buttons */
-    .form-container .btn:hover, .open-button:hover {
-        opacity: 1;
+    .delete-btn {
+        background-color: #dc3545; /* Красный цвет */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
     }
 </style>

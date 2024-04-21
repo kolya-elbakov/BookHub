@@ -37,4 +37,12 @@ class MessageController extends Controller
 
         return redirect()->back();
     }
+
+    public function deleteMessage(int $id)
+    {
+        $message = Message::find($id);
+        $message->delete();
+
+        return redirect()->back();
+    }
 }
