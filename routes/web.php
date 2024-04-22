@@ -83,3 +83,5 @@ Route::get('edit-message/{id}', [MessageController::class, 'getEditForm'])->name
 Route::post('edit-message/{id}', [MessageController::class, 'editMessage'])->name('edit-message');
 
 Route::get('my-chats/{id}', [MessageController::class, 'getMyChats'])->name('my-chats');
+
+Route::post('switch-profile/{id}', [ProfileController::class, 'switchingProfileStatus'])->name('switch-profile');

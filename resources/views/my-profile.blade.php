@@ -20,10 +20,19 @@
                 <a class="menu-link" href="/add-book-form">Добавить книгу</a>
             </ul>
         </nav>
+        <form action="{{ route('switch-profile', $user->id) }}" method="post">
+            @csrf
+            <button type="submit" class="profile-btn">
+                @if ($user->is_profile_open)
+                   <a style="background-color: #dc3545; color: white;">Закрыть профиль</a>
+                @else
+                    <a style="background-color: #28a745; color: white;">Открыть профиль</a>
+                @endif
+            </button>
+        </form>
         <h2>Профиль пользователя</h2>
         <p><strong>Имя:</strong> {{$user->name}} {{$user->surname}}</p>
         <p><strong>Email:</strong> {{$user->email}}</p>
-        <!-- Другая информация о пользователе -->
     </div>
     <div class="book-list">
         <h3>Мои книги для обмена и поиска</h3>
@@ -105,5 +114,10 @@
         max-width: 100%;
         height: auto;
         border-radius: 5px;
+    }
+    .profile-btn {
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
     }
 </style>

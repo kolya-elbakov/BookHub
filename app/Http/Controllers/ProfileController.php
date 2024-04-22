@@ -23,4 +23,13 @@ class ProfileController extends Controller
         $userBooks = $user->books;
         return view('userProfile', ['userBooks'=>$userBooks], ['user'=>$user]);
     }
+
+    public function switchingProfileStatus(int $id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_profile_open = !$user->is_profile_open;
+        $user->save();
+
+        return redirect()->route('My-profile');
+    }
 }

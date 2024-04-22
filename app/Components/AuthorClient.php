@@ -2,7 +2,6 @@
 
 namespace App\Components;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
 class AuthorClient
@@ -13,6 +12,8 @@ class AuthorClient
             'q' => $authorName,
         ]);
 
-        return $response->json();
+        $data = $response->json();
+
+        return !empty($data['docs']) ? $data['docs'][0] : [];
     }
 }

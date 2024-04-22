@@ -3,9 +3,9 @@
 </li>
 <main class="main-posts-list">
     <h3>Автор:</h3>
-    <p>Имя: {{ $authorData['docs'][0]['name'] ?? ''}}</p>
-    <p>Дата рождения: {{ $authorData['docs'][0]['birth_date'] ?? ''}}</p>
-    <p>Лучшее произведение: {{ $authorData['docs'][0]['top_work'] ?? ''}}</p>
+    <p>Имя: {{ $authorData['name'] ?? ''}}</p>
+    <p>Дата рождения: {{ $authorData['birth_date'] ?? ''}}</p>
+    <p>Лучшее произведение: {{ $authorData['top_work'] ?? ''}}</p>
 
     <h3>Книги автора:</h3>
     @foreach($books as $book)
