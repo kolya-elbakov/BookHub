@@ -27,6 +27,9 @@
         </div>
 
         <label for="message"><b>Message</b></label>
+        @if ($errors->has('message'))
+            <span class="text-danger">{{ $errors->first('message') }}</span>
+        @endif
         <textarea placeholder="Type message.." name="message" id="message" required></textarea>
         <button type="submit" class="btn">Send</button>
     </form>

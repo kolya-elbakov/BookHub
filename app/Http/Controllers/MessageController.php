@@ -34,13 +34,24 @@ class MessageController extends Controller
     {
         $validated = $request->validated();
 
+        $recipient = User::findOrFail($id);
+
+        $messageCount = Message::where('sender_id', $id)
+            ->where('recipient_id', auth()->user()->id)
+            ->count();
+
+
+        if (!$recipient->is_profile_open && $messageCount < 1) {
+            return back()->withErrors(['message' => 'Профиль закрыт. Вы уже отправили приветственное сообщение.']);
+        }
+
         $message = new Message();
         $message->sender_id = auth()->user()->id;
         $message->recipient_id = $id;
         $message->message = $validated['message'];
         $message->save();
 
-        if($message){
+        if ($message) {
             $this->rabbitMQService->publish('notification_queue', $message->id);
         }
 
