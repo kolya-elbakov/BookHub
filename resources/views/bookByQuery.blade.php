@@ -1,7 +1,18 @@
 <li class="menu-item">
-    <a class="menu-link" href="/books-genre">Назад</a>
+    <a class="menu-link" href="/authors">Назад</a>
 </li>
 <main class="main-posts-list">
+    @if (isset($authorData))
+        <h3>Автор:</h3>
+        <p>Имя: {{ $authorData['name'] ?? '' }}</p>
+        <p>Дата рождения: {{ $authorData['birth_date'] ?? '' }}</p>
+        <p>Лучшее произведение: {{ $authorData['top_work'] ?? '' }}</p>
+        <h3>Книги автора:</h3>
+    @elseif (isset($genre))
+        <h3>Жанр: {{ $genre }}</h3>
+        <h3>Книги в этом жанре:</h3>
+    @endif
+
     @foreach($books as $book)
         <article class="article">
             <div class="article-item">
@@ -12,7 +23,7 @@
                 </div>
                 <div class="article-text-column">
                     <h2 class="article-title">
-                        <a class="article-title-link" href="{{ route('book-show', $book->id) }}">{{ $book->book_name }}</a>
+                        <a class="article-title-link" href="{{ route('book', $book->id) }}">{{ $book->book_name }}</a>
                     </h2>
                     <cite class="article-genre">Жанр: {{ $book->genre }}</cite><br>
                     <cite class="article-author">Автор: {{ $book->author }}</cite><br>
@@ -84,3 +95,4 @@
         text-decoration: underline;
     }
 </style>
+

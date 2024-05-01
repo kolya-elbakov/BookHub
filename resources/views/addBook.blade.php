@@ -1,5 +1,5 @@
 <ul class="menu-list">
-    <a class="menu-link" href="/My-profile">Назад</a>
+    <a class="menu-link" href="/my-profile">Назад</a>
 </ul>
 <form action="{{ route('add-book-save') }}" method="post" enctype="multipart/form-data">
     @csrf

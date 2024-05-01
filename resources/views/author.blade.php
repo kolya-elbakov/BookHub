@@ -27,13 +27,14 @@
 </header>
 <main>
     @foreach ($authors as $author)
-    <ul class="author-list">
-            <a href="{{route('author', $author->author)}}">{{ $author->author }}
+        <ul class="author-list">
+            <a href="{{ route('booksByQuery', ['query' => $author->author, 'author' => 1]) }}">
+                {{ $author->author }}
                 <a class="book-count">
                     {{$author->author_count}} книг
                 </a>
             </a>
-    </ul>
+        </ul>
     @endforeach
 </main>
 </body>

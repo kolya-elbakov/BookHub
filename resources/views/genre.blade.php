@@ -27,13 +27,14 @@
 </header>
 <main>
     @foreach ($genres as $genre)
-    <ul class="genre-list">
-            <a href="{{route('genre', $genre->genre)}}">{{ $genre->genre }}
+        <ul class="genre-list">
+            <a href="{{ route('booksByQuery', ['query' => $genre->genre, 'genre' => 1]) }}">
+                {{ $genre->genre }}
                 <a class="book-count">
-                    {{$genre->book_count}} книг
+                    {{$genre->genre_count}} книг
                 </a>
             </a>
-    </ul>
+        </ul>
     @endforeach
 </main>
 </body>

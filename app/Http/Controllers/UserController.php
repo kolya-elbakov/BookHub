@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function login()
+    public function getLogin()
     {
         return view('auth.login');
     }
-    public function customLogin(Request $request)
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required',
@@ -28,11 +28,11 @@ class UserController extends Controller
         }
         return redirect("login")->withSuccess('Login details are not valid');
     }
-    public function registration()
+    public function getRegistration()
     {
         return view('auth.register');
     }
-    public function customRegistration(Request $request)
+    public function registration(Request $request)
     {
         return DB::transaction(function () use ($request) {
             $request->validate([

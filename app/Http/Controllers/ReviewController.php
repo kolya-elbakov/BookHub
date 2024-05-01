@@ -23,6 +23,7 @@ class ReviewController extends Controller
     {
         return view('create-review', ['userId' => $id]);
     }
+
     public function createReview(ReviewRequest $request, int $id)
     {
             $validated = $request->validated();

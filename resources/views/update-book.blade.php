@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <ul class="menu-list">
-        <a class="menu-link" href="/My-profile">Назад</a>
+        <a class="menu-link" href="/my-profile">Назад</a>
     </ul>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +40,7 @@
         </select><br>
 
         <button type="submit">Сохранить</button>
-        <a href="{{ route('delete-book', ['id' => $book->id]) }}" onclick="return confirm('Вы уверены, что хотите удалить книгу?')">Удалить</a>
+        <a href="{{ route('delete-book', ['bookId' => $book->id]) }}" onclick="return confirm('Вы уверены, что хотите удалить книгу?')">Удалить</a>
     </form>
 </div>
 </body>

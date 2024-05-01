@@ -24,7 +24,7 @@
 <body>
 <div class="container">
     <h1>Оформление заявки на обмен</h1>
-    <form action="{{ route('create-application', $book->id) }}" method="post">
+    <form action="{{ route('application', $book->id) }}" method="post">
         @csrf
         <div class="form-group">
             <label for="name">Имя:</label>

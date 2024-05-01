@@ -9,7 +9,7 @@
 </ul>
 <body>
 <div class="chat-popup" id="myForm">
-    <form action="{{ route('create-message', ['id' => $userId]) }}" method="post" class="form-container">
+    <form action="{{ route('create-message', ['userId' => $userId]) }}" method="post" class="form-container">
         @csrf
         <h1>Chat with {{$user->name}} {{$user->surname}}</h1>
 
@@ -20,7 +20,7 @@
                     <p>{{ $message->message }}</p>
                 </div>
                 @if ($message->sender_id == auth()->user()->id)
-                    <a class="delete-btn" href="{{ route('delete-message', ['id' => $message->id]) }}">Удалить</a>
+                    <a class="delete-btn" href="{{ route('delete-message', ['messageId' => $message->id]) }}">Удалить</a>
                     <a class="edit-btn" href="{{ route('edit-message', $message->id) }}">Редактировать</a>
                 @endif
             @endforeach

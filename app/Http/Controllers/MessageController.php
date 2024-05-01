@@ -36,13 +36,20 @@ class MessageController extends Controller
 
         $recipient = User::findOrFail($id);
 
-        $messageCount = Message::where('sender_id', $id)
-            ->where('recipient_id', auth()->user()->id)
-            ->count();
+        $messageCount = Message::where(function ($query) use ($id) {
+            $query->where('sender_id', auth()->user()->id)->where('recipient_id', $id);
+        })->orWhere(function ($query) use ($id) {
+            $query->where('sender_id', $id)->where('recipient_id', auth()->user()->id);
+        })->count();
 
+        if (!$recipient->is_profile_open && $messageCount === 0) {
 
-        if (!$recipient->is_profile_open && $messageCount < 1) {
+        } elseif (!$recipient->is_profile_open && $messageCount === 1) {
             return back()->withErrors(['message' => 'Профиль закрыт. Вы уже отправили приветственное сообщение.']);
+        } elseif (!$recipient->is_profile_open && $messageCount >= 2) {
+
+        } else {
+
         }
 
         $message = new Message();

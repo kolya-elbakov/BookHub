@@ -20,39 +20,32 @@ class ApplicationController extends Controller
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    public function getApplicationForm(int $id)
+    public function getApplicationForm(int $bookId)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $userBooks = $user->books;
-            $book = Book::find($id);
-            return view('application', ['userBooks'=>$userBooks], ['book'=>$book]);
-        } else {
-            return redirect("login")->withSuccess('You are not allowed to access');
-        }
+        $user = Auth::user();
+        $userBooks = $user->books;
+        $book = Book::find($bookId);
+        return view('application', ['userBooks' => $userBooks], ['book' => $book]);
     }
 
-    public function createApplication(ApplicationRequest $request, int $id)
+    public function createApplication(ApplicationRequest $request, int $bookId)
     {
-            $validate = $request->validate([
-                'sender_book_id' => 'required|numeric',
-                'message' => 'required|string',
-            ]);
+            $validated = $request->validated();
 
             $senderUserId = Auth::id();
             $senderBookId = $request->input('sender_book_id');
 
-            $recipientBook = Book::find($id);
+            $recipientBook = Book::find($bookId);
             $recipientUserId = $recipientBook->user_id;
 
             $application = new Application();
             $application->sender_user_id = $senderUserId;
             $application->recipient_user_id = $recipientUserId;
             $application->sender_book_id = $senderBookId;
-            $application->recipient_book_id = $id;
+            $application->recipient_book_id = $bookId;
             $application->date_application = now();
-            $application->status = 'pending';
-            $application->message = $validate['message'];
+            $application->status = Application::STATUS_PENDING;
+            $application->message = $validated['message'];
             $application->save();
 
             if($application) {
@@ -66,7 +59,7 @@ class ApplicationController extends Controller
         return view('success');
     }
 
-    public function getApplicationInfo()
+    public function getApplications()
     {
         $user = Auth::user();
         $userApplics = Application::where('recipient_user_id', $user->id)->where('status', 'pending')->get();
@@ -76,41 +69,32 @@ class ApplicationController extends Controller
 
     public function confirmApplication(int $id)
     {
-        $application = Application::find($id);
+        $application = Application::findOrFail($id);
 
-        if($application) {
-            $application->status = 'confirmed';
+        $application->status = Application::STATUS_CONFIRMED;
 
-            try {
-                DB::transaction(function () use ($application) {
+        $senderBook = Book::find($application->sender_book_id);
+        $recipientBook = Book::find($application->recipient_book_id);
 
-                    $application->save();
+        DB::transaction(function () use ($application, $senderBook, $recipientBook) {
 
-                    $senderBook = Book::find($application->sender_book_id);
-                    $recipientBook = Book::find($application->recipient_book_id);
+            $application->save();
 
-                    $senderBook->update(['user_id' => $application->recipient_user_id]);
-                    $recipientBook->update(['user_id' => $application->sender_user_id]);
-                });
-                return redirect('applic-book')->with('success', 'Заявка успешно подтверждена и книги обменены!');
-            } catch (\Exception $exception) {
-                return redirect()->back()->withErrors('Произошла ошибка при подтверждении заявки: '.$exception->getMessage());
-            }
-        } else {
-            return redirect()->back()->withErrors('Заявка не найдена.');
-        }
+            $senderBook->update(['user_id' => $application->recipient_user_id]);
+            $recipientBook->update(['user_id' => $application->sender_user_id]);
+        });
+
+        return redirect('applic-book')->with('success', 'Заявка успешно подтверждена и книги обменены!');
     }
 
     public function rejectApplication(int $id)
     {
-        $application = Application::find($id);
+        $application = Application::findOrFail($id);
 
-        if($application) {
-            $application->status = 'rejected';
+            $application->status = Application::STATUS_REJECTED;
 
             $application->save();
 
             return redirect('applic-book')->with('success', 'Заявка успешно отклонена');
-        }
     }
 }

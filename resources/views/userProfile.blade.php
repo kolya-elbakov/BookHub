@@ -35,7 +35,7 @@
             @if($book->images->isNotEmpty())
             <img src ='{{ Storage::url($book->images->first()->image_path) }}' width="250" height="390" alt="Book 1">
             @endif
-            <a class="article-name" href="{{ route('book-show', $book->id) }}">Название: {{ $book->book_name }} </a><br>
+            <a class="article-name" href="{{ route('book', $book->id) }}">Название: {{ $book->book_name }} </a><br>
             <cite class="article-genre">Жанр: {{ $book->genre }} </cite><br>
             <cite class="article-author">Автор: {{ $book->author }}</cite><br>
             <cite class="article-datetime">Дата издания: {{ $book->date_publication }}</cite><br>

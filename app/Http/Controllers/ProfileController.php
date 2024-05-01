@@ -7,16 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function getMyBook()
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $userBooks = $user->books;
-            return view('my-profile', ['userBooks'=>$userBooks], ['user'=>$user]);
-        }
-        return redirect("login")->withSuccess('You are not allowed to access');
-    }
-
     public function getUserProfile(int $id)
     {
         $user = User::find($id);
@@ -30,6 +20,6 @@ class ProfileController extends Controller
         $user->is_profile_open = !$user->is_profile_open;
         $user->save();
 
-        return redirect()->route('My-profile');
+        return redirect()->route('my-profile');
     }
 }

@@ -13,22 +13,21 @@
                     <button class="search-button"><span class="visually-hidden">Найти</span></button>
                 </form>
                 <li class="menu-item">
-                    <a class="menu-link" href="{{ route('my-chats', ['id' => $user->id]) }}">Мои чаты</a>
+                    <a class="menu-link" href="{{ route('my-chats') }}">Мои чаты</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/books-genre">Жанры</a>
+                    <a class="menu-link" href="/genres">Жанры</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/books-author">Авторы</a>
+                    <a class="menu-link" href="/authors">Авторы</a>
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="{{ route('signout') }}">Logout</a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/My-profile">{{ $user->name }} <br>{{$user->surname}}</a>
+                    <a class="menu-link" href="/my-profile">{{ $user->name }} <br>{{$user->surname}}</a>
                 </li>
                 <li class="menu-list">
-{{--                    <a class="menu-link" href="{{route('applic-book', $application->id)}}">Заявки</a>--}}
                     <a class="menu-link" href="/applic-book">Заявки</a>
 
                 </li>
@@ -53,7 +52,7 @@
                     </div>
                     <div class="article-text-column">
                         <h2 class="article-title">
-                            <a class="article-title-link" href="{{ route('book-show', $book->id) }}">{{ $book->book_name }}</a>
+                            <a class="article-title-link" href="{{ route('book', $book->id) }}">{{ $book->book_name }}</a>
                         </h2>
                         <cite class="article-genre">Жанр: {{ $book->genre }}</cite><br>
                         <cite class="article-author">Автор: {{ $book->author }}</cite><br>
