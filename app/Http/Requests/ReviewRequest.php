@@ -24,7 +24,6 @@ class ReviewRequest extends FormRequest
         return [
             'grade' => 'required|int|max:5',
             'comment' => 'required',
-            'date_review' => 'required|date',
         ];
     }
 }

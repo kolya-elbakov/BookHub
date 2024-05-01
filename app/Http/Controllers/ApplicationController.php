@@ -43,7 +43,6 @@ class ApplicationController extends Controller
             $application->recipient_user_id = $recipientUserId;
             $application->sender_book_id = $senderBookId;
             $application->recipient_book_id = $bookId;
-            $application->date_application = now();
             $application->status = Application::STATUS_PENDING;
             $application->message = $validated['message'];
             $application->save();
@@ -62,7 +61,7 @@ class ApplicationController extends Controller
     public function getApplications()
     {
         $user = Auth::user();
-        $userApplics = Application::where('recipient_user_id', $user->id)->where('status', 'pending')->get();
+        $userApplics = $user->receivedApplications()->where('status', Application::STATUS_PENDING)->get();
 
         return view('applic-book', compact('userApplics'));
     }

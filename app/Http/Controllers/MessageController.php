@@ -43,23 +43,39 @@ class MessageController extends Controller
         })->count();
 
         if (!$recipient->is_profile_open && $messageCount === 0) {
+            $message = new Message();
+            $message->sender_id = auth()->user()->id;
+            $message->recipient_id = $id;
+            $message->message = $validated['message'];
+            $message->save();
 
-        } elseif (!$recipient->is_profile_open && $messageCount === 1) {
-            return back()->withErrors(['message' => 'Профиль закрыт. Вы уже отправили приветственное сообщение.']);
-        } elseif (!$recipient->is_profile_open && $messageCount >= 2) {
+            if ($message) {
+                $this->rabbitMQService->publish('notification_queue', $message->id);
+            }
+        } elseif (!$recipient->is_profile_open && $messageCount >= 1) {
+            if ($messageCount === 1) {
+                return back()->withErrors(['message' => 'Профиль закрыт. Вы уже отправили приветственное сообщение.']);
+            } elseif(!$recipient->is_profile_open && $messageCount >= 2) {
+                $message = new Message();
+                $message->sender_id = auth()->user()->id;
+                $message->recipient_id = $id;
+                $message->message = $validated['message'];
+                $message->save();
 
+                if ($message) {
+                    $this->rabbitMQService->publish('notification_queue', $message->id);
+                }
+            }
         } else {
+            $message = new Message();
+            $message->sender_id = auth()->user()->id;
+            $message->recipient_id = $id;
+            $message->message = $validated['message'];
+            $message->save();
 
-        }
-
-        $message = new Message();
-        $message->sender_id = auth()->user()->id;
-        $message->recipient_id = $id;
-        $message->message = $validated['message'];
-        $message->save();
-
-        if ($message) {
-            $this->rabbitMQService->publish('notification_queue', $message->id);
+            if ($message) {
+                $this->rabbitMQService->publish('notification_queue', $message->id);
+            }
         }
 
         return redirect()->back();

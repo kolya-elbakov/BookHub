@@ -24,9 +24,6 @@
     <label for="comment">Комментарий:</label><br>
     <textarea name="comment" id="comment" rows="4" required></textarea><br><br>
 
-    <label for="date_review">Дата отзыва:</label>
-    <input type="date" name="date_review" id="date_review" required><br><br>
-
     <button type="submit">Отправить отзыв</button>
 </form>
 

@@ -33,7 +33,6 @@ class ReviewController extends Controller
             $review->recipient_id = $id;
             $review->grade = $validated['grade'];
             $review->comment = $validated['comment'];
-            $review->date_review = $validated['date_review'];
             $review->save();
 
             return redirect('success')->with('success', 'Отзыв успешно создан');
