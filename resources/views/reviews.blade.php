@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <ul class="menu-list">
-    <a class="menu-link" href="{{route('my-profile')}}">Назад</a>
+    <a class="menu-link" href="/books">Главная</a>
 </ul>
 <head>
     <meta charset="UTF-8">

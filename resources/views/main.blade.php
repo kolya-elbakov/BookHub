@@ -2,16 +2,11 @@
 
     <div class="header-wrap">
         <a class="logo" href="">
-            <img alt="Логотип сайта" src="https://psv4.userapi.com/c235031/u157852698/docs/d29/74a2a80f7521/IMG_9429-removebg-preview.png?extra=yFMRQki_O6CSKBCi_Loe6aNV9wEneaS9fHpqVrgHXjgDYbSPuPzcKrXxMjH4NPn6YrP0Hq2tzvYrxjI6BzvY-GgvIUUEV8audW4ypmg31seGFuOF6jo3lCx2KC362vPqwU6IKc92OvZAhnx2ScqmCpNg" width="250" height="90">
+            <img alt="Логотип сайта" src="{{Storage::url('images/a6e11657-a33b-4031-9ab7-3fec64e15da3.jpeg')}}" width="250" height="90">
         </a>
 
         <nav class="menu">
             <ul class="menu-list">
-                <form class="search">
-                    <label class="visually-hidden" for="search">Поиск по блогу</label>
-                    <input id="search" type="search" class="search-field" name="search" placeholder="Найти..." required>
-                    <button class="search-button"><span class="visually-hidden">Найти</span></button>
-                </form>
                 <li class="menu-item">
                     <a class="menu-link" href="{{ route('my-chats') }}">Мои чаты</a>
                 </li>

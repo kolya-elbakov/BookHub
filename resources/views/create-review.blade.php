@@ -10,7 +10,7 @@
 
 <h1>Написать отзыв о пользователе</h1>
 
-<form action="{{ route('create-review', ['id' => $userId]) }}" method="POST">
+<form action="{{ route('create-review', ['userId' => $userId]) }}" method="POST">
     @csrf
     <label for="grade">Оценка (от 1 до 5):</label>
     <select name="grade">
