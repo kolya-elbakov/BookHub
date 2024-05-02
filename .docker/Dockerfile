@@ -1,20 +1,20 @@
 FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libjpeg-dev \
-        libmcrypt-dev \
-        jpegoptim optipng pngquant gifsicle \
-        libonig-dev \
-        libpng-dev \
-        libicu-dev \
-        libgd-dev \
-        libpq-dev \
-        libxpm-dev \
-        libxml2-dev \
-        libvpx-dev \
-        libzip-dev \
+#        libfreetype6-dev \
+#        libjpeg62-turbo-dev \
+#        libjpeg-dev \
+#        libmcrypt-dev \
+#        jpegoptim optipng pngquant gifsicle \
+#        libonig-dev \
+#        libpng-dev \
+#        libicu-dev \
+#        libgd-dev \
+#        libpq-dev \
+#        libxpm-dev \
+#        libxml2-dev \
+#        libvpx-dev \
+#        libzip-dev \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install -j$(nproc) gd \
