@@ -1,12 +1,19 @@
+FROM composer AS composer
+
+COPY . /app
+RUN rm composer.lock && composer install \
+  --optimize-autoloader \
+  --no-interaction \
+  --no-progress \
+  --ignore-platform-reqs
+RUN chmod 777 -R storage
+
 FROM php:8.3-fpm
 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository contrib
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
-        mcrypt \
+        libmcrypt-dev \
         libpng-dev \
         libicu-dev \
         libpq-dev \
