@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-RUN apt-get update  --timeout 60
+RUN apt-get update
 RUN apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
