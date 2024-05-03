@@ -1,6 +1,7 @@
 FROM php:8.3-fpm
 
 RUN echo 'deb http://mirror.yandex.ru/debian/ bookworm main contrib non-free non-free-firmware deb-src http://mirror.yandex.ru/debian/ bookworm main contrib non-free non-free-firmware deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware deb http://mirror.yandex.ru/debian/ bookworm-updates main contrib non-free non-free-firmware deb-src http://mirror.yandex.ru/debian/ bookworm-updates main contrib non-free non-free-firmware' > /etc/apt/sources.list
+
 RUN apt-get update && apt-get upgrade && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -11,8 +12,6 @@ RUN apt-get update && apt-get upgrade && apt-get install -y \
         libxpm-dev \
         libvpx-dev \
         libzip-dev \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install -j$(nproc) zip \
@@ -32,3 +31,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 USER www
+
