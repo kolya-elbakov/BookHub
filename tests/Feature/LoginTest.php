@@ -24,10 +24,12 @@ class LoginTest extends TestCase
     public function test_user_can_login_with_correct_credentials()
     {
         $this->withoutMiddleware();
+        $email = 'test' . uniqid() . '@mail.ru';
+
         $user = User::create([
             'name' => 'kolya',
             'surname' => 'elbakov',
-            'email' => 'test@mail.ru',
+            'email' => $email,
             'password' => Hash::make('12345678')
         ]);
         $response =  $this->withSession(['_token' => csrf_token()])->post('/login', [
